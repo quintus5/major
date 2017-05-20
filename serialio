@@ -17,13 +17,13 @@ void setupserial(){
 // reset servo
 void resetservo(){
   // call pwm function to reset servo to initial top left position
+  // terminate all current task
 }
 
 // read data from serial input
 // will reading clear SCI1DRL?
 char readinput(){
-  char data = SCI1DRL;
-  return data;
+  return SCI1DRL;
 }
 
 // interrupt for SCI1
@@ -33,37 +33,74 @@ interrupt 21 void SCI1_ISR(void){
   PORTA = set;
 }
 
-void int main(int argc, char const *argv[]) {
+// output NULL terminated string using polling method
+void printstring(char *msg){
+  while(!(*msg)){
+    while(!(SCI1SR1 & SCI1SR1_TDRE_MASK)){
+      SCI1DRL = msg;
+    }
+    msg++;
+  }
+}
+
+// get a character by polling
+char getcharc(void){
+  while(!(SCI1SR1 & SCI1SR1_RDRF_MASK)){
+    return(SCI1DRL);
+  }
+}
+
+void initalsetting(){
+
+}
+
+
+void main(int argc, char const *argv[]) {
 
   PORTA = 0;
   int increment;
   char data;
+  char *wannareset = "do you wanna reset servo? (y/n)";
+  char *resmsg = "input resolution (1~9): ";
+  char *error = "invalid resolution enter again";
 
   setupserial();
   _asm CLI;
 
+// initial setup
+// loop until everything is acquired
+// may need to change loop condition
+  while(1){
+    printstring(wannareset);
+    data = getcharc();
+    
+    if(data == 'y'){                   // check if wanna resetservo
+        resetservo();                  
+    }
+    else if(data == 'n'){
+      printstring(resmsg);
+      increment = getcharc();
+      if(increment >= '1' && increment <= '9'){    // if not gonna resetservo, then adjuest increment
+        increment = increment-'1';                 // get the (int)data
+        break;                                     // get out of loop when everything required is available
+      }
+      else{
+        printstring(error);             // print error message if not what we wanted
+      }
+    }
+  }
+
+// this loop will contain all other sensor function
   while(1){
 
     if(PORTA == set){               // check if there is any interrupt
       PORTA = clear;                // clear port so next time interrupt occurs
       data = readinput();           // get data from serial port
 
-      if(data == 'y' || data =='h'){     // check if wanna resetservo
-        resetservo();                    // h is hard reset
-      }
-      else if(data == 'n'){
-        // print out 'input increment'
-        //while(not interrupted);
-
-      }
-      else if(data >= '0' && data <= '9'){    // if not gonna resetservo, then adjuest increment
-        increment = data-'0';       // get the (int)data
-      }
-
+      if(data =='h'){     // check if wanna hard resetservo
+        resetservo();
+      }                   // do not care if anything else is pressed
     }
-
     // pass increment to pwm output
   }
-
-  return 0;
 }
