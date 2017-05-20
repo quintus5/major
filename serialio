@@ -48,8 +48,13 @@ void int main(int argc, char const *argv[]) {
       PORTA = clear;                // clear port so next time interrupt occurs
       data = readinput();           // get data from serial port
 
-      if(data == 'y'){              // check if wanna resetservo
-        resetservo();
+      if(data == 'y' || data =='h'){     // check if wanna resetservo
+        resetservo();                    // h is hard reset
+      }
+      else if(data == 'n'){
+        // print out 'input increment'
+        //while(not interrupted);
+
       }
       else if(data >= '0' && data <= '9'){    // if not gonna resetservo, then adjuest increment
         increment = data-'0';       // get the (int)data
