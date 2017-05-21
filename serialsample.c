@@ -1,73 +1,53 @@
-#include <hidef.h>
-#include "derivative.h"
+#include <stdio.h>
+
 
 #define set 1
 #define clear 0
 
-
 // setup serial port
 void setupserial(){
-
-  SCI1BDH = 0;
-  SCI1BDL = 156;    // baurate of 9600
-  SCI1CR1 = 0X4C;   //  control register with enable bit on
-  SCI1CR2 = 0b00101100;   // enable RIE TIE TE RE
+  printf("setting serial...\n");
+  return;
 }
 
 // reset servo
 void resetservo(){
   // call pwm function to reset servo to initial top left position
   // terminate all current task
-  char *msg = "resetting servo...";
-  printstring(msg); 
+  printf("resetting servo...\n");
+  return;
 }
 
-// read data from serial input
-// will reading clear SCI1DRL?
-char readinput(){
-  return SCI1DRL;
-}
-
-// interrupt for SCI1
-interrupt 21 void SCI1_ISR(void){
-
-  SCI1SR1 = SCI1SR1|SCI1SR1_RDRF_MASK;    // clear flag interrupt
-  PORTA = set;
-}
 
 // output NULL terminated string using polling method
 void printstring(char *msg){
   while(!(*msg)){
-    while(!(SCI1SR1 & SCI1SR1_TDRE_MASK)){
-      SCI1DRL = msg;
-    }
+    printf("%c",*msg);
     msg++;
   }
+  return;
 }
 
 // get a character by polling
 char getcharc(void){
-  while(!(SCI1SR1 & SCI1SR1_RDRF_MASK)){
-    return(SCI1DRL);
-  }
-}
-
-void initalsetting(){
-
+  char data;
+  scanf("%c", &data);
+  return data;
 }
 
 
 void main(int argc, char const *argv[]) {
 
-  PORTA = 0;
+  int PORTA = 0;
   int increment;
   char data;
+
   char *wannareset = "do you wanna reset servo? (y/n)";
   char *resmsg = "input resolution (1~9): ";
   char *error = "invalid resolution enter again";
 
   setupserial();
-  _asm CLI;
+
 
 // initial setup
 // loop until everything is acquired
@@ -84,6 +64,7 @@ void main(int argc, char const *argv[]) {
       increment = getcharc();
       if(increment >= '1' && increment <= '9'){    // if not gonna resetservo, then adjuest increment
         increment = increment-'1';                 // get the (int)data
+        printf("%i\n", increment);
         break;                                     // get out of loop when everything required is available
       }
       else{
@@ -91,18 +72,5 @@ void main(int argc, char const *argv[]) {
       }
     }
   }
-
-// this loop will contain all other sensor function
-  while(1){
-
-    if(PORTA == set){               // check if there is any interrupt
-      PORTA = clear;                // clear port so next time interrupt occurs
-      data = readinput();           // get data from serial port
-
-      if(data =='h'){     // check if wanna hard resetservo
-        resetservo();
-      }                   // do not care if anything else is pressed
-    }
-    // pass increment to pwm output
-  }
+  return 0;
 }
