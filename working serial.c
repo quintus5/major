@@ -29,7 +29,7 @@ void setupserial(){
 }
 
 
-interrupt 20 void SCI0_ISR(void){     // row 21 of interrupt vector table, (SCI1)
+interrupt 20 void SCI0_ISR(void){     // row 20 of interrupt vector table, (SCI0)
  
     char garbage = SCI0DRL;           // reading data register will clear the flag
     SCI0SR1 &= ~SCI0SR1_RDRF_MASK;    // resets the flag for next time       
@@ -54,6 +54,7 @@ void printstring(char *string){
   }
 }
 
+// get data from serial and print on screen, polling, return data
 char printcharc(void){
   char data = SCI0DRL;
   while(!(SCI0SR1&SCI0SR1_TDRE_MASK));
@@ -66,6 +67,7 @@ void main(){
 
   int increment;
   char data;
+  
   setupserial();
   _asm CLI;
 
@@ -75,6 +77,8 @@ void main(){
 while(1){
     printstring(wannareset);
     
+    // wait till port b is set(data is given)
+    // store data then get out of loop
     while(PORTB == clear){
        if(PORTB == set){      
          data = printcharc();      
@@ -87,9 +91,10 @@ while(1){
         resetservo();                  
     }
     
-    else if(data == 'n'){
+    else if(data == 'n'){               // if not then poll for increment
       printstring(resmsg);
-
+    
+      // wait till somthing is given
       while(PORTB == clear){
          if(PORTB == set){    
          increment = printcharc();      
@@ -104,7 +109,7 @@ while(1){
         break;                                     // get out of loop when everything required is available
       }
       else{
-        printstring(errorres);              // print error message if outside range
+        printstring(errorres);             // print error message if outside range
       }
     }
     else{
