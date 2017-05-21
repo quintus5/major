@@ -3,7 +3,10 @@
 
 #define set 1
 #define clear 0
-
+ 
+ const char *wannareset = "do you wanna reset servo? (y/n)\n\r";
+ const char *resmsg = "input resolution (1~9): \n\r";
+ const char *error = "invalid resolution enter again\n\r";
 
 // setup serial port
 void setupserial(){
@@ -62,9 +65,7 @@ void main(int argc, char const *argv[]) {
   PORTA = 0;
   int increment;
   char data;
-  char *wannareset = "do you wanna reset servo? (y/n)";
-  char *resmsg = "input resolution (1~9): ";
-  char *error = "invalid resolution enter again";
+ 
 
   setupserial();
   _asm CLI;
