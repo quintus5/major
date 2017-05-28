@@ -4,9 +4,10 @@
 #define set 1
 #define clear 0
  
- const char *wannareset = "do you wanna reset servo? (y/n)\n\r";
- const char *resmsg = "input resolution (1~9): \n\r";
- const char *error = "invalid resolution enter again\n\r";
+const char *wannareset = "do you wanna reset servo? (y/n)\n\r";
+const char *resmsg = "input resolution (1~9): \n\r";
+const char *error = "invalid resolution enter again\n\r";
+const char msg[] = "resetting servo...\r\n";
 
 // setup serial port
 void setupserial(){
@@ -21,7 +22,6 @@ void setupserial(){
 void resetservo(){
   // call pwm function to reset servo to initial top left position
   // terminate all current task
-  char *msg = "resetting servo...";
   printstring(msg); 
 }
 
