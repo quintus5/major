@@ -1,4 +1,6 @@
 #include "io.h"               /* serial io to get all necessary input*/
+#include "laser.h"
+#include "pwm.h"
 #include "globalvar.h"      /* contain all global variable*/
 #include <hidef.h>      /* common defines and macros */
 #include "derivative.h"      /* derivative-specific definitions */
@@ -17,7 +19,7 @@ void main(void) {
   asm_main(); /* call the assembly function */
   // this contain all user input variable
   initialization();
-
+  laser_setup();
 
 
   for(;;) {

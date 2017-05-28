@@ -1,3 +1,5 @@
+#include "laser.h"
+
 //laser setup
 void laser_setup(void){
 	DDRT  = 0xFD; 			//set PT1 as input
@@ -10,7 +12,7 @@ void laser_setup(void){
 float laser_main(void){
 	int Fraw;
 	int Rraw;
-	int Pulsewidth
+	int Pulsewidth;
 	float Converted;
 
 	TCTL4 = 0x04; 	//set PT1 to capture rising edge

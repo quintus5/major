@@ -2,7 +2,5 @@
 #include "derivative.h"      /* derivative-specific definitions */
 #include "globalvar.h"
 
-void resetservie(void);
-void motocontrol(void);
-void delay(int);
-
+float laser_main(void);
+void laser_setup(void);

@@ -1,3 +1,6 @@
+#include "pwm.h"
+#include "laser.h"
+
 void resetservie(void){
 
 	PWMPRCLK = 0x44; 	//Clock SA&SB = Fbus/16
@@ -22,12 +25,15 @@ int angle_increased, duty_increased, current_duty;
 int min_angle_h, max_angle_h, min_angle_t, max_angle_t, steps_h, steps_t, samples, laser_measurement = 0, sample_frequency_h, sample_frequency_t;
 
 void motocontrol(void){
-  
+
+  int i,j,k;
+  float converted;
+    
   for (i = 0; i < steps_h; i++){
 
     PWMDTY67 = ((min_angle_h+((max_angle_h-min_angle_h)*i)/steps_h)*(1/3000)+0.045)*1000; //set angle
     PWMCNT67 = 0x00; //clear register
-    delay(); //delay function here
+    delay(6); //delay function here
      
     for (j =0; j < steps_t; j++){ //< or <= steps
     	
@@ -39,12 +45,20 @@ void motocontrol(void){
     	PWMCNT45        = 0x00; //clear register
     		
       for (k = 0; k < samples; k++){
-        laser_main(); //run laser measurement
+        converted = laser_main(); //run laser measurement
     	  laser_measurement = laser_measurement + converted; //accumulate measurements
   		}
       
      	laser_measurement = laser_measurement / samples; //average measurements
     	delay(1/sample_frequency_t); //delay according to required frequency
    	}
+  }
+}
+
+void delay(int time){
+  int i,j;
+  for(i = 0; i < time; i++){
+    for(j = 0; j < 500; j++){
+    }
   }
 }
