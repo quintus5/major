@@ -34,24 +34,19 @@
 
 void getsensordata(void);      
 
-void adxl345_getrawdata(int *axraw, int *ayraw, int *azraw);
+void adxl345_getrawdata(int*, int*, int*);
 void accel_init(void);
 void accel_test(void);
 
-void hm5883_getrawdata(int *mxraw, int *myraw, int *mzraw);
+void hm5883_getrawdata(int*, int*, int*);
 void magnet_init(void);
 void magnet_test(void);
 
-void l3g4200d_getrawdata(int *gxraw, int *gyraw, int *gzraw);
+void l3g4200d_getrawdata(int*, int*, int*);
 void gyro_init(void);
 void gyro_test(void);
 
-void accele_cal(int *axraw, int *ayraw, int *azraw);
-void magnet_cal(int *mzraw,int *myraw);
-
-void magnet_cal_notilt(int *mxraw, int *mzraw);
-int gyro_cal(void);  
-float correctAngle(float heading);
-float tiltCompensate(double xg,double yg, double zg, int *ayraw,int *axraw);
-
+void accele_cal(int, int, int);
+void magnet_cal_notilt(int,int);
+void gyro_cal(void);
  #endif 

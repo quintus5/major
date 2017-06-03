@@ -15,24 +15,16 @@ unsigned char hundreddig;
 unsigned char value_string[5];
 const unsigned char numbers[19] = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F','F','F','F'};
    
-void printsensor(void){
-
-        unsigned int accelerometer = 15;
-        unsigned int gyroheading = 2;
-        unsigned int gyroelevation = 4;
-        unsigned int magnetometer = 78;
+void printsensor(int accelerometer, int gyroheading, int gyroelevation, int magnetometer){
         
         CMDWRT4(0xC0);            //set start posistion, home position
         halfmsdelay(1);
           
-        Int_to_string2(accelerometer);
-        accelerometer++;         
+        Int_to_string2(accelerometer);      
         Int_to_string2(gyroheading);
-        gyroheading++;    
         Int_to_string2(gyroelevation);
-        gyroelevation++;
         Int_to_string2(magnetometer);
-        magnetometer++;
+
 }
   /*
 //convert int read from sensor to string form

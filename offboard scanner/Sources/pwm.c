@@ -105,7 +105,7 @@ void motocontrol(void){
     			  seveseg_main(laser_measurement);    // output to sevenseg
     				laser_measurement = 0;        // reset variable
     			// may need to check if all the calculation and displayng takes longer than servo delay
-        	  printsensor();
+        	  getsensordata();
             }
             checktai = set;      
     	}
@@ -122,7 +122,7 @@ void motocontrol(void){
     			  seveseg_main(laser_measurement);    // output to sevenseg
     				laser_measurement = clear;        // reset variable
     			// may need to check if all the calculation and displayng takes longer than servo delay
-        	printsensor();
+        	getsensordata();
        }
        checktai = clear;       
      }		

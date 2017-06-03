@@ -16,6 +16,16 @@ mc9s12dg256.c.o                         Model: SMALL,         Lang: ANSI-C
 main.c.o                                Model: SMALL,         Lang: ANSI-C
 main.asm.o                              Model: SMALL,         Lang: Assembler
 Start12.c.o                             Model: SMALL,         Lang: ANSI-C
+MATH.C.o (ansis.lib)                    Model: SMALL,         Lang: ANSI-C
+DANSI.C.o (ansis.lib)                   Model: SMALL,         Lang: ANSI-C
+FADD.C.o (ansis.lib)                    Model: SMALL,         Lang: ANSI-C
+FANSI.C.o (ansis.lib)                   Model: SMALL,         Lang: ANSI-C
+FCMP.C.o (ansis.lib)                    Model: SMALL,         Lang: ANSI-C
+FCONV.C.o (ansis.lib)                   Model: SMALL,         Lang: ANSI-C
+FMUL.C.o (ansis.lib)                    Model: SMALL,         Lang: ANSI-C
+FREGS.C.o (ansis.lib)                   Model: SMALL,         Lang: ANSI-C
+rtshc12.c.o (ansis.lib)                 Model: SMALL,         Lang: ANSI-C
+VREGS.C.o (ansis.lib)                   Model: SMALL,         Lang: ANSI-C
 io.c.o                                  Model: SMALL,         Lang: ANSI-C
 pwm.c.o                                 Model: SMALL,         Lang: ANSI-C
 laser.c.o                               Model: SMALL,         Lang: ANSI-C
@@ -23,7 +33,9 @@ sevenseg.c.o                            Model: SMALL,         Lang: ANSI-C
 LCD.c.o                                 Model: SMALL,         Lang: ANSI-C
 keypad.c.o                              Model: SMALL,         Lang: ANSI-C
 sensor_on_lcd.c.o                       Model: SMALL,         Lang: ANSI-C
+sensor.c.o                              Model: SMALL,         Lang: ANSI-C
 iic.c.o                                 Model: SMALL,         Lang: ANSI-C
+pll.c.o                                 Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -35,8 +47,8 @@ SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             16     R     0xC000     0xC00F   ROM_C000
-.rodata                          192     R     0xC010     0xC0CF   ROM_C000
-.text                           1560     R     0xC0D0     0xC6E7   ROM_C000
+.rodata                          200     R     0xC010     0xC0D7   ROM_C000
+.text                           5742     R     0xC0D8     0xD745   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -381,14 +393,15 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
 .abs_section_ffe0                  2     R     0xFFE0     0xFFE1   .absSeg341
 .bss                               8   R/W     0x1100     0x1107   RAM
-MyCode                             7     R     0xC6E8     0xC6EE   ROM_C000
+MyCode                             7     R     0xD746     0xD74C   ROM_C000
 MY_EXTENDED_RAM                    1   R/W     0x1108     0x1108   RAM
-.common                           48   R/W     0x1109     0x1138   RAM
+RUNTIME                         1114     R     0xD74D     0xDBA6   ROM_C000
+.common                         1867   R/W     0x1109     0x1853   RAM
 .vectSeg342_vect                   2     R     0xFFFE     0xFFFF   .vectSeg342
 
 Summary of section sizes per section type:
-READ_ONLY (R):         6F3 (dec:     1779)
-READ_WRITE (R/W):      139 (dec:      313)
+READ_ONLY (R):        1BAB (dec:     7083)
+READ_WRITE (R/W):      854 (dec:     2132)
 NO_INIT (N/I):         190 (dec:      400)
 
 *********************************************************************************************
@@ -432,12 +445,12 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPAGE                                      30       1       1       0   .abs_section_30
      _PORTK                                      32       1       1      16   .abs_section_32
      _DDRK                                       33       1       1       1   .abs_section_33
-     _SYNR                                       34       1       1       0   .abs_section_34
-     _REFDV                                      35       1       1       0   .abs_section_35
-     _CRGFLG                                     37       1       1       0   .abs_section_37
+     _SYNR                                       34       1       1       1   .abs_section_34
+     _REFDV                                      35       1       1       1   .abs_section_35
+     _CRGFLG                                     37       1       1       1   .abs_section_37
      _CRGINT                                     38       1       1       0   .abs_section_38
-     _CLKSEL                                     39       1       1       0   .abs_section_39
-     _PLLCTL                                     3A       1       1       0   .abs_section_3a
+     _CLKSEL                                     39       1       1       2   .abs_section_39
+     _PLLCTL                                     3A       1       1       1   .abs_section_3a
      _RTICTL                                     3B       1       1       0   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
@@ -496,11 +509,11 @@ MODULE:                 -- mc9s12dg256.c.o --
      _SPI0BR                                     DA       1       1       0   .abs_section_da
      _SPI0SR                                     DB       1       1       0   .abs_section_db
      _SPI0DR                                     DD       1       1       0   .abs_section_dd
-     _IBAD                                       E0       1       1       0   .abs_section_e0
-     _IBFD                                       E1       1       1       0   .abs_section_e1
-     _IBCR                                       E2       1       1       0   .abs_section_e2
-     _IBSR                                       E3       1       1       0   .abs_section_e3
-     _IBDR                                       E4       1       1       0   .abs_section_e4
+     _IBAD                                       E0       1       1       1   .abs_section_e0
+     _IBFD                                       E1       1       1       1   .abs_section_e1
+     _IBCR                                       E2       1       1       9   .abs_section_e2
+     _IBSR                                       E3       1       1      11   .abs_section_e3
+     _IBDR                                       E4       1       1       7   .abs_section_e4
      _SPI1CR1                                    F0       1       1       0   .abs_section_f0
      _SPI1CR2                                    F1       1       1       0   .abs_section_f1
      _SPI1BR                                     F2       1       1       0   .abs_section_f2
@@ -747,11 +760,11 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                      C0D0      25      37       1   .text       
+     main                                      C0D8      25      37       1   .text       
 - VARIABLES:
 MODULE:                 -- main.asm.o --
 - PROCEDURES:
-     asm_main                                  C6E8       7       7       1   MyCode      
+     asm_main                                  D746       7       7       1   MyCode      
 - VARIABLES:
      temp_byte                                 1108       1       1       1   MY_EXTENDED_RAM
 MODULE:                 -- Start12.c.o --
@@ -760,97 +773,225 @@ MODULE:                 -- Start12.c.o --
 - VARIABLES:
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
+MODULE:                 -- MATH.C.o (ansis.lib) --
+- PROCEDURES:
+     copysign                                  C0FD      18      24       1   .text       
+     logb                                      C115       E      14       2   .text       
+     fabs                                      C123      10      16       6   .text       
+     isint                                     C133      32      50       1   .text       
+     is_special                                C165      3C      60       6   .text       
+     pow_i                                     C1A1      AE     174       1   .text       
+     exp_r                                     C24F     1C7     455       5   .text       
+     log_r                                     C416     183     387       2   .text       
+     pow                                       C599     15A     346       5   .text       
+     sqrt_r                                    C6F3      C8     200       2   .text       
+     sqrt                                      C7BB      40      64       1   .text       
+     SetSign                                   C7FB      20      32       2   .text       
+     atan2                                     C81B     4FB    1275      35   .text       
+- VARIABLES:
+     infinity                                  C010       4       4       8   .rodata     
+     nan_union                                 C014       4       4       4   .rodata     
+MODULE:                 -- DANSI.C.o (ansis.lib) --
+- PROCEDURES:
+     modf                                      D74D       3       3       1   RUNTIME     
+     frexp                                     D750       3       3       3   RUNTIME     
+     ldexp                                     D753       3       3       8   RUNTIME     
+- VARIABLES:
+MODULE:                 -- FADD.C.o (ansis.lib) --
+- PROCEDURES:
+     F_ADDKL                                   D756      67     103       1   RUNTIME     
+     _FADD                                     D7BD      15      21      43   RUNTIME     
+     _FSUB                                     D7D2      13      19      14   RUNTIME     
+     _FNEG                                     D7E5       B      11       4   RUNTIME     
+- VARIABLES:
+MODULE:                 -- FANSI.C.o (ansis.lib) --
+- PROCEDURES:
+     F_MODF                                    D7F0      38      56       1   RUNTIME     
+     F_FREXP                                   D828      1F      31       1   RUNTIME     
+     F_LDEXP                                   D847      15      21       1   RUNTIME     
+     modff                                     D85C      18      24       1   RUNTIME     
+     frexpf                                    D874      19      25       1   RUNTIME     
+     RetErrDom                                 D88D       D      13       1   RUNTIME     
+     ldexpf                                    D89A      1E      30       1   RUNTIME     
+- VARIABLES:
+MODULE:                 -- FCMP.C.o (ansis.lib) --
+- PROCEDURES:
+     _FCMP                                     D8B8      26      38      10   RUNTIME     
+- VARIABLES:
+MODULE:                 -- FCONV.C.o (ansis.lib) --
+- PROCEDURES:
+     F_TOLONGK                                 D8DE      33      51       1   RUNTIME     
+     F_FRLONGK                                 D911      1F      31       1   RUNTIME     
+     _FSFLOAT                                  D930      12      18       4   RUNTIME     
+     _FSTRUNC                                  D942      11      17       7   RUNTIME     
+- VARIABLES:
+MODULE:                 -- FMUL.C.o (ansis.lib) --
+- PROCEDURES:
+     F_DIVKL                                   D953      8E     142       1   RUNTIME     
+     F_MULKL                                   D9E1      58      88       1   RUNTIME     
+     _FMUL                                     DA39      14      20      30   RUNTIME     
+     _FDIV                                     DA4D      1E      30      11   RUNTIME     
+- VARIABLES:
+MODULE:                 -- FREGS.C.o (ansis.lib) --
+- PROCEDURES:
+     F_PULK                                    DA6B      15      21       4   RUNTIME     
+     F_PULL                                    DA80      15      21       6   RUNTIME     
+     F_PSHK                                    DA95      13      19       7   RUNTIME     
+     F_STAL                                    DAA8      17      23       1   RUNTIME     
+     F_TLK                                     DABF       D      13       3   RUNTIME     
+     F_XGKL                                    DACC      21      33       2   RUNTIME     
+     F_CLRK                                    DAED       B      11       3   RUNTIME     
+     F_CLRL                                    DAF8       C      12       1   RUNTIME     
+     F_MAXK                                    DB04       9       9       2   RUNTIME     
+     F_NORMK                                   DB0D      3E      62       5   RUNTIME     
+- VARIABLES:
+MODULE:                 -- rtshc12.c.o (ansis.lib) --
+- PROCEDURES:
+     _LCMP                                     DB4B      19      25       1   RUNTIME     
+     _NEG_P                                    DB64       F      15       1   RUNTIME     
+     _ILSEXT                                   DB73       7       7       5   RUNTIME     
+     _CASE_CHECKED_BYTE                        DB7A      14      20       7   RUNTIME     
+- VARIABLES:
+     errno                                     1109       2       2       6   .common     
+MODULE:                 -- VREGS.C.o (ansis.lib) --
+- PROCEDURES:
+     L_NEGK                                    DB8E       7       7       2   RUNTIME     
+     L_PSHK                                    DB95       8       8       1   RUNTIME     
+     SL_PULK                                   DB9D       A      10       1   RUNTIME     
+- VARIABLES:
 MODULE:                 -- io.c.o --
 - PROCEDURES:
-     initialization                            C0F5      F1     241       4   .text       
+     initialization                            CD16      F1     241       4   .text       
 - VARIABLES:
-     maxverti                                  C010       E      14       1   .rodata     
-     maxhori                                   C01E      10      16       1   .rodata     
-     errorangle                                C02E      10      16       2   .rodata     
-     resobruh                                  C03E      10      16       1   .rodata     
-     errorres                                  C04E       F      15       1   .rodata     
-     frequencie                                C05D       F      15       1   .rodata     
-     errorfreq                                 C06C      10      16       1   .rodata     
-     sampling                                  C07C       E      14       1   .rodata     
-     errorsamp                                 C08A       9       9       1   .rodata     
-     sensortitle                               C093      10      16       1   .rodata     
-     increment                                 1109       1       1       5   .common     
-     frequency                                 110A       1       1       6   .common     
-     samp_per_ori                              110B       1       1       6   .common     
-     max_angle_h                               110C       1       1       7   .common     
-     max_angle_t                               110D       1       1       7   .common     
-     min_angle_h                               110E       1       1       2   .common     
-     min_angle_t                               110F       1       1       2   .common     
+     maxverti                                  C018       E      14       1   .rodata     
+     maxhori                                   C026      10      16       1   .rodata     
+     errorangle                                C036      10      16       2   .rodata     
+     resobruh                                  C046      10      16       1   .rodata     
+     errorres                                  C056       F      15       1   .rodata     
+     frequencie                                C065       F      15       1   .rodata     
+     errorfreq                                 C074      10      16       1   .rodata     
+     sampling                                  C084       E      14       1   .rodata     
+     errorsamp                                 C092       9       9       1   .rodata     
+     sensortitle                               C09B      10      16       1   .rodata     
+     increment                                 110B       1       1       5   .common     
+     frequency                                 110C       1       1       6   .common     
+     samp_per_ori                              110D       1       1       6   .common     
+     max_angle_h                               110E       1       1       7   .common     
+     max_angle_t                               110F       1       1       7   .common     
+     min_angle_h                               1110       1       1       2   .common     
+     min_angle_t                               1111       1       1       2   .common     
 MODULE:                 -- pwm.c.o --
 - PROCEDURES:
-     resetservie                               C1E6      27      39       1   .text       
-     motocontrol                               C20D     13C     316       5   .text       
+     resetservie                               CE07      27      39       1   .text       
+     motocontrol                               CE2E     13C     316       5   .text       
 - VARIABLES:
      laser_measurement                         1100       2       2       5   .bss        
-     i                                         1110       2       2       5   .common     
-     j                                         1112       2       2       8   .common     
-     k                                         1114       2       2       5   .common     
-     converted                                 1116       2       2       1   .common     
-     duty_increment                            1118       2       2       4   .common     
-     max_duty_h                                111A       2       2       1   .common     
-     max_duty_t                                111C       2       2       2   .common     
-     min_duty_h                                111E       2       2       3   .common     
-     min_duty_t                                1120       2       2       3   .common     
-     step_h                                    1122       2       2       2   .common     
-     step_t                                    1124       2       2       3   .common     
-     current_duty_h                            1126       2       2       1   .common     
-     current_duty_t                            1128       2       2       1   .common     
+     i                                         1112       2       2       5   .common     
+     j                                         1114       2       2       8   .common     
+     k                                         1116       2       2       5   .common     
+     converted                                 1118       2       2       1   .common     
+     duty_increment                            111A       2       2       4   .common     
+     max_duty_h                                111C       2       2       1   .common     
+     max_duty_t                                111E       2       2       2   .common     
+     min_duty_h                                1120       2       2       3   .common     
+     min_duty_t                                1122       2       2       3   .common     
+     step_h                                    1124       2       2       2   .common     
+     step_t                                    1126       2       2       3   .common     
+     current_duty_h                            1128       2       2       1   .common     
+     current_duty_t                            112A       2       2       1   .common     
 MODULE:                 -- laser.c.o --
 - PROCEDURES:
-     laser_setup                               C349      11      17       1   .text       
-     laser_main                                C35A      31      49       1   .text       
+     laser_setup                               CF6A      11      17       1   .text       
+     laser_main                                CF7B      31      49       1   .text       
 - VARIABLES:
-     Fraw                                      112A       2       2       1   .common     
-     Rraw                                      112C       2       2       2   .common     
-     Pulsewidth                                112E       2       2       1   .common     
-     Distance_in_cm                            1130       2       2       1   .common     
+     Fraw                                      112C       2       2       1   .common     
+     Rraw                                      112E       2       2       2   .common     
+     Pulsewidth                                1130       2       2       1   .common     
+     Distance_in_cm                            1132       2       2       1   .common     
 MODULE:                 -- sevenseg.c.o --
 - PROCEDURES:
-     onemsdelay                                C38B      1F      31       1   .text       
-     halfmsdelay                               C3AA      1F      31       7   .text       
-     delayforlcd                               C3C9      1F      31       9   .text       
-     sevenseg_config                           C3E8       F      15       1   .text       
-     seveseg_main                              C3F7      5D      93       1   .text       
+     onemsdelay                                CFAC      1F      31       1   .text       
+     halfmsdelay                               CFCB      1F      31       7   .text       
+     delayforlcd                               CFEA      1F      31       9   .text       
+     sevenseg_config                           D009       F      15       1   .text       
+     seveseg_main                              D018      5D      93       1   .text       
 - VARIABLES:
-     LCD_nodot                                 C0A3       A      10       2   .rodata     
+     LCD_nodot                                 C0AB       A      10       2   .rodata     
 MODULE:                 -- LCD.c.o --
 - PROCEDURES:
-     LCD_setup                                 C454      2A      42       1   .text       
-     LCD_string                                C47E      35      53       3   .text       
-     LCD_text                                  C4B3      19      25       5   .text       
-     LCD_sensorval                             C4CC      26      38       1   .text       
-     CMDWRT4                                   C4F2      45      69       7   .text       
-     DATWRT4                                   C537      39      57       3   .text       
+     LCD_setup                                 D075      2A      42       1   .text       
+     LCD_string                                D09F      35      53       3   .text       
+     LCD_text                                  D0D4      19      25       5   .text       
+     LCD_sensorval                             D0ED      26      38       1   .text       
+     CMDWRT4                                   D113      45      69       7   .text       
+     DATWRT4                                   D158      39      57       3   .text       
 - VARIABLES:
 MODULE:                 -- keypad.c.o --
 - PROCEDURES:
-     setupkeypad                               C570      16      22       1   .text       
-     getkey                                    C586      AC     172       4   .text       
+     setupkeypad                               D191      16      22       1   .text       
+     getkey                                    D1A7      AC     172       4   .text       
 - VARIABLES:
-     keypad                                    C0AD      10      16       4   .rodata     
-     column                                    1132       1       1       6   .common     
-     row                                       1133       1       1       3   .common     
+     keypad                                    C0B5      10      16       4   .rodata     
+     column                                    1134       1       1       6   .common     
+     row                                       1135       1       1       3   .common     
 MODULE:                 -- sensor_on_lcd.c.o --
 - PROCEDURES:
-     printsensor                               C632      23      35       1   .text       
-     Int_to_string2                            C655      6C     108       4   .text       
+     printsensor                               D253      22      34       1   .text       
+     Int_to_string2                            D275      6C     108       4   .text       
 - VARIABLES:
-     numbers                                   C0BD      13      19       4   .rodata     
-     value_string                              1134       5       5       8   .common     
+     numbers                                   C0C5      13      19       4   .rodata     
+     value_string                              1136       5       5       8   .common     
+MODULE:                 -- sensor.c.o --
+- PROCEDURES:
+     getsensordata                             D2E1      80     128       1   .text       
+     magnet_init                               D361      11      17       1   .text       
+     hm5883_getrawdata                         D372      80     128       1   .text       
+     magnet_cal_notilt                         D3F2      4F      79       1   .text       
+     accel_init                                D441      1C      28       1   .text       
+     adxl345_getrawdata                        D45D      8B     139       1   .text       
+     accele_cal                                D4E8      78     120       1   .text       
+     gyro_init                                 D560      12      18       1   .text       
+     l3g4200d_getrawdata                       D572      7D     125       1   .text       
+     gyro_cal                                  D5EF       1       1       1   .text       
+- VARIABLES:
+     gxraw                                     113B      C8     200       1   .common     
+     gyraw                                     1203      C8     200       1   .common     
+     gzraw                                     12CB      C8     200       1   .common     
+     axraw                                     1393      C8     200       1   .common     
+     ayraw                                     145B      C8     200       1   .common     
+     azraw                                     1523      C8     200       1   .common     
+     mxraw                                     15EB      C8     200       1   .common     
+     myraw                                     16B3      C8     200       1   .common     
+     mzraw                                     177B      C8     200       1   .common     
+     heading                                   1843       4       4       7   .common     
+     accel_deg                                 1847       4       4       4   .common     
+     gx_deg                                    184B       4       4       4   .common     
+     gy_deg                                    184F       4       4       4   .common     
 MODULE:                 -- iic.c.o --
 - PROCEDURES:
-     TC7_ISR                                   C6C1      27      39       1   .text       
+     iicinit                                   D5F0       B      11       1   .text       
+     iicresponse                               D5FB      2D      45       3   .text       
+     iicstart                                  D628      41      65       6   .text       
+     iicstop                                   D669       4       4       4   .text       
+     iicrestart                                D66D       8       8       3   .text       
+     iictransmit                               D675       5       5      11   .text       
+     iicswrcv                                  D67A       6       6       3   .text       
+     iicreceive                                D680      24      36       3   .text       
+     iicreceivem1                              D6A4      27      39       3   .text       
+     iicreceivelast                            D6CB      2D      45       3   .text       
+     setAlarm                                  D6F8      12      18       6   .text       
+     TC7_ISR                                   D70A      27      39       1   .text       
 - VARIABLES:
-     alarmSignaled                             1102       1       1       1   .bss        
-     currentTime                               1103       2       2       3   .bss        
-     alarmTime                                 1105       2       2       1   .bss        
-     alarmSet                                  1107       1       1       2   .bss        
+     alarmSignaled                             1102       1       1      14   .bss        
+     currentTime                               1103       2       2       4   .bss        
+     alarmTime                                 1105       2       2       2   .bss        
+     alarmSet                                  1107       1       1       3   .bss        
      _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
+     iic_error_code                            1853       1       1       5   .common     
+MODULE:                 -- pll.c.o --
+- PROCEDURES:
+     PLL_Init                                  D731      15      21       1   .text       
+- VARIABLES:
 
 *********************************************************************************************
 MODULE STATISTIC
@@ -860,31 +1001,48 @@ MODULE STATISTIC
   main.c.o                                     0     37      0
   main.asm.o                                   1      7      0
   Start12.c.o                                  0     16      0
+  MATH.C.o (ansis.lib)                         0   3097      8
+  DANSI.C.o (ansis.lib)                        0      9      0
+  FADD.C.o (ansis.lib)                         0    154      0
+  FANSI.C.o (ansis.lib)                        0    200      0
+  FCMP.C.o (ansis.lib)                         0     38      0
+  FCONV.C.o (ansis.lib)                        0    117      0
+  FMUL.C.o (ansis.lib)                         0    280      0
+  FREGS.C.o (ansis.lib)                        0    224      0
+  rtshc12.c.o (ansis.lib)                      2     67      0
+  VREGS.C.o (ansis.lib)                        0     25      0
   io.c.o                                       7    241    147
   pwm.c.o                                     28    355      0
   laser.c.o                                    8     66      0
   sevenseg.c.o                                 0    201     10
   LCD.c.o                                      0    284      0
   keypad.c.o                                   2    194     16
-  sensor_on_lcd.c.o                            5    143     19
-  iic.c.o                                      6     39      2
+  sensor_on_lcd.c.o                            5    142     19
+  sensor.c.o                                1816    783      0
+  iic.c.o                                      7    321      2
+  pll.c.o                                      0     21      0
   other                                      256      2      0
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  main initialization resetservie motocontrol laser_setup laser_main 
+  main copysign logb fabs isint is_special pow_i exp_r log_r pow sqrt_r sqrt 
+  SetSign atan2 initialization resetservie motocontrol laser_setup laser_main 
   onemsdelay halfmsdelay delayforlcd sevenseg_config seveseg_main LCD_setup 
   LCD_string LCD_text LCD_sensorval CMDWRT4 DATWRT4 setupkeypad getkey 
-  printsensor Int_to_string2 TC7_ISR 
+  printsensor Int_to_string2 getsensordata magnet_init hm5883_getrawdata 
+  magnet_cal_notilt accel_init adxl345_getrawdata accele_cal gyro_init 
+  l3g4200d_getrawdata gyro_cal iicinit iicresponse iicstart iicstop iicrestart 
+  iictransmit iicswrcv iicreceive iicreceivem1 iicreceivelast setAlarm TC7_ISR 
+  PLL_Init 
 SECTION: ".bss"
   laser_measurement alarmSignaled currentTime alarmTime alarmSet 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
-  maxverti maxhori errorangle resobruh errorres frequencie errorfreq sampling 
-  errorsamp sensortitle LCD_nodot keypad numbers 
+  infinity nan_union maxverti maxhori errorangle resobruh errorres frequencie 
+  errorfreq sampling errorsamp sensortitle LCD_nodot keypad numbers 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1571,11 +1729,17 @@ SECTION: "MyCode"
   asm_main 
 SECTION: "MY_EXTENDED_RAM"
   temp_byte 
+SECTION: "RUNTIME"
+  modf frexp ldexp F_ADDKL _FADD _FSUB _FNEG F_MODF F_FREXP F_LDEXP modff 
+  frexpf RetErrDom ldexpf _FCMP F_TOLONGK F_FRLONGK _FSFLOAT _FSTRUNC F_DIVKL 
+  F_MULKL _FMUL _FDIV F_PULK F_PULL F_PSHK F_STAL F_TLK F_XGKL F_CLRK F_CLRL 
+  F_MAXK F_NORMK _LCMP _NEG_P _ILSEXT _CASE_CHECKED_BYTE L_NEGK L_PSHK SL_PULK 
 SECTION: ".common"
-  increment frequency samp_per_ori max_angle_h max_angle_t min_angle_h 
+  errno increment frequency samp_per_ori max_angle_h max_angle_t min_angle_h 
   min_angle_t i j k converted duty_increment max_duty_h max_duty_t min_duty_h 
   min_duty_t step_h step_t current_duty_h current_duty_t Fraw Rraw Pulsewidth 
-  Distance_in_cm column row value_string 
+  Distance_in_cm column row value_string gxraw gyraw gzraw axraw ayraw azraw 
+  mxraw myraw mzraw heading accel_deg gx_deg gy_deg iic_error_code 
 SECTION: ".abs_section_ffe0"
   _Vector_15 
 
@@ -1614,12 +1778,12 @@ OBJECT LIST SORTED BY ADDRESS
      _PPAGE                                      30       1       1       0   .abs_section_30
      _PORTK                                      32       1       1      16   .abs_section_32
      _DDRK                                       33       1       1       1   .abs_section_33
-     _SYNR                                       34       1       1       0   .abs_section_34
-     _REFDV                                      35       1       1       0   .abs_section_35
-     _CRGFLG                                     37       1       1       0   .abs_section_37
+     _SYNR                                       34       1       1       1   .abs_section_34
+     _REFDV                                      35       1       1       1   .abs_section_35
+     _CRGFLG                                     37       1       1       1   .abs_section_37
      _CRGINT                                     38       1       1       0   .abs_section_38
-     _CLKSEL                                     39       1       1       0   .abs_section_39
-     _PLLCTL                                     3A       1       1       0   .abs_section_3a
+     _CLKSEL                                     39       1       1       2   .abs_section_39
+     _PLLCTL                                     3A       1       1       1   .abs_section_3a
      _RTICTL                                     3B       1       1       0   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
@@ -1720,11 +1884,11 @@ OBJECT LIST SORTED BY ADDRESS
      _SPI0BR                                     DA       1       1       0   .abs_section_da
      _SPI0SR                                     DB       1       1       0   .abs_section_db
      _SPI0DR                                     DD       1       1       0   .abs_section_dd
-     _IBAD                                       E0       1       1       0   .abs_section_e0
-     _IBFD                                       E1       1       1       0   .abs_section_e1
-     _IBCR                                       E2       1       1       0   .abs_section_e2
-     _IBSR                                       E3       1       1       0   .abs_section_e3
-     _IBDR                                       E4       1       1       0   .abs_section_e4
+     _IBAD                                       E0       1       1       1   .abs_section_e0
+     _IBFD                                       E1       1       1       1   .abs_section_e1
+     _IBCR                                       E2       1       1       9   .abs_section_e2
+     _IBSR                                       E3       1       1      11   .abs_section_e3
+     _IBDR                                       E4       1       1       7   .abs_section_e4
      _SPI1CR1                                    F0       1       1       0   .abs_section_f0
      _SPI1CR2                                    F1       1       1       0   .abs_section_f1
      _SPI1BR                                     F2       1       1       0   .abs_section_f2
@@ -1925,85 +2089,199 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
      laser_measurement                         1100       2       2       5   .bss        
-     alarmSignaled                             1102       1       1       1   .bss        
-     currentTime                               1103       2       2       3   .bss        
-     alarmTime                                 1105       2       2       1   .bss        
-     alarmSet                                  1107       1       1       2   .bss        
+     alarmSignaled                             1102       1       1      14   .bss        
+     currentTime                               1103       2       2       4   .bss        
+     alarmTime                                 1105       2       2       2   .bss        
+     alarmSet                                  1107       1       1       3   .bss        
      temp_byte                                 1108       1       1       1   MY_EXTENDED_RAM
-     increment                                 1109       1       1       5   .common     
-     frequency                                 110A       1       1       6   .common     
-     samp_per_ori                              110B       1       1       6   .common     
-     max_angle_h                               110C       1       1       7   .common     
-     max_angle_t                               110D       1       1       7   .common     
-     min_angle_h                               110E       1       1       2   .common     
-     min_angle_t                               110F       1       1       2   .common     
-     i                                         1110       2       2       5   .common     
-     j                                         1112       2       2       8   .common     
-     k                                         1114       2       2       5   .common     
-     converted                                 1116       2       2       1   .common     
-     duty_increment                            1118       2       2       4   .common     
-     max_duty_h                                111A       2       2       1   .common     
-     max_duty_t                                111C       2       2       2   .common     
-     min_duty_h                                111E       2       2       3   .common     
-     min_duty_t                                1120       2       2       3   .common     
-     step_h                                    1122       2       2       2   .common     
-     step_t                                    1124       2       2       3   .common     
-     current_duty_h                            1126       2       2       1   .common     
-     current_duty_t                            1128       2       2       1   .common     
-     Fraw                                      112A       2       2       1   .common     
-     Rraw                                      112C       2       2       2   .common     
-     Pulsewidth                                112E       2       2       1   .common     
-     Distance_in_cm                            1130       2       2       1   .common     
-     column                                    1132       1       1       6   .common     
-     row                                       1133       1       1       3   .common     
-     value_string                              1134       5       5       8   .common     
+     errno                                     1109       2       2       6   .common     
+     increment                                 110B       1       1       5   .common     
+     frequency                                 110C       1       1       6   .common     
+     samp_per_ori                              110D       1       1       6   .common     
+     max_angle_h                               110E       1       1       7   .common     
+     max_angle_t                               110F       1       1       7   .common     
+     min_angle_h                               1110       1       1       2   .common     
+     min_angle_t                               1111       1       1       2   .common     
+     i                                         1112       2       2       5   .common     
+     j                                         1114       2       2       8   .common     
+     k                                         1116       2       2       5   .common     
+     converted                                 1118       2       2       1   .common     
+     duty_increment                            111A       2       2       4   .common     
+     max_duty_h                                111C       2       2       1   .common     
+     max_duty_t                                111E       2       2       2   .common     
+     min_duty_h                                1120       2       2       3   .common     
+     min_duty_t                                1122       2       2       3   .common     
+     step_h                                    1124       2       2       2   .common     
+     step_t                                    1126       2       2       3   .common     
+     current_duty_h                            1128       2       2       1   .common     
+     current_duty_t                            112A       2       2       1   .common     
+     Fraw                                      112C       2       2       1   .common     
+     Rraw                                      112E       2       2       2   .common     
+     Pulsewidth                                1130       2       2       1   .common     
+     Distance_in_cm                            1132       2       2       1   .common     
+     column                                    1134       1       1       6   .common     
+     row                                       1135       1       1       3   .common     
+     value_string                              1136       5       5       8   .common     
+     gxraw                                     113B      C8     200       1   .common     
+     gyraw                                     1203      C8     200       1   .common     
+     gzraw                                     12CB      C8     200       1   .common     
+     axraw                                     1393      C8     200       1   .common     
+     ayraw                                     145B      C8     200       1   .common     
+     azraw                                     1523      C8     200       1   .common     
+     mxraw                                     15EB      C8     200       1   .common     
+     myraw                                     16B3      C8     200       1   .common     
+     mzraw                                     177B      C8     200       1   .common     
+     heading                                   1843       4       4       7   .common     
+     accel_deg                                 1847       4       4       4   .common     
+     gx_deg                                    184B       4       4       4   .common     
+     gy_deg                                    184F       4       4       4   .common     
+     iic_error_code                            1853       1       1       5   .common     
      _Startup                                  C000      10      16       0   .init       
-     maxverti                                  C010       E      14       1   .rodata     
-     maxhori                                   C01E      10      16       1   .rodata     
-     errorangle                                C02E      10      16       2   .rodata     
-     resobruh                                  C03E      10      16       1   .rodata     
-     errorres                                  C04E       F      15       1   .rodata     
-     frequencie                                C05D       F      15       1   .rodata     
-     errorfreq                                 C06C      10      16       1   .rodata     
-     sampling                                  C07C       E      14       1   .rodata     
-     errorsamp                                 C08A       9       9       1   .rodata     
-     sensortitle                               C093      10      16       1   .rodata     
-     LCD_nodot                                 C0A3       A      10       2   .rodata     
-     keypad                                    C0AD      10      16       4   .rodata     
-     numbers                                   C0BD      13      19       4   .rodata     
-     main                                      C0D0      25      37       1   .text       
-     initialization                            C0F5      F1     241       4   .text       
-     resetservie                               C1E6      27      39       1   .text       
-     motocontrol                               C20D     13C     316       5   .text       
-     laser_setup                               C349      11      17       1   .text       
-     laser_main                                C35A      31      49       1   .text       
-     onemsdelay                                C38B      1F      31       1   .text       
-     halfmsdelay                               C3AA      1F      31       7   .text       
-     delayforlcd                               C3C9      1F      31       9   .text       
-     sevenseg_config                           C3E8       F      15       1   .text       
-     seveseg_main                              C3F7      5D      93       1   .text       
-     LCD_setup                                 C454      2A      42       1   .text       
-     LCD_string                                C47E      35      53       3   .text       
-     LCD_text                                  C4B3      19      25       5   .text       
-     LCD_sensorval                             C4CC      26      38       1   .text       
-     CMDWRT4                                   C4F2      45      69       7   .text       
-     DATWRT4                                   C537      39      57       3   .text       
-     setupkeypad                               C570      16      22       1   .text       
-     getkey                                    C586      AC     172       4   .text       
-     printsensor                               C632      23      35       1   .text       
-     Int_to_string2                            C655      6C     108       4   .text       
-     TC7_ISR                                   C6C1      27      39       1   .text       
-     asm_main                                  C6E8       7       7       1   MyCode      
+     infinity                                  C010       4       4       8   .rodata     
+     nan_union                                 C014       4       4       4   .rodata     
+     maxverti                                  C018       E      14       1   .rodata     
+     maxhori                                   C026      10      16       1   .rodata     
+     errorangle                                C036      10      16       2   .rodata     
+     resobruh                                  C046      10      16       1   .rodata     
+     errorres                                  C056       F      15       1   .rodata     
+     frequencie                                C065       F      15       1   .rodata     
+     errorfreq                                 C074      10      16       1   .rodata     
+     sampling                                  C084       E      14       1   .rodata     
+     errorsamp                                 C092       9       9       1   .rodata     
+     sensortitle                               C09B      10      16       1   .rodata     
+     LCD_nodot                                 C0AB       A      10       2   .rodata     
+     keypad                                    C0B5      10      16       4   .rodata     
+     numbers                                   C0C5      13      19       4   .rodata     
+     main                                      C0D8      25      37       1   .text       
+     copysign                                  C0FD      18      24       1   .text       
+     logb                                      C115       E      14       2   .text       
+     fabs                                      C123      10      16       6   .text       
+     isint                                     C133      32      50       1   .text       
+     is_special                                C165      3C      60       6   .text       
+     pow_i                                     C1A1      AE     174       1   .text       
+     exp_r                                     C24F     1C7     455       5   .text       
+     log_r                                     C416     183     387       2   .text       
+     pow                                       C599     15A     346       5   .text       
+     sqrt_r                                    C6F3      C8     200       2   .text       
+     sqrt                                      C7BB      40      64       1   .text       
+     SetSign                                   C7FB      20      32       2   .text       
+     atan2                                     C81B     4FB    1275      35   .text       
+     initialization                            CD16      F1     241       4   .text       
+     resetservie                               CE07      27      39       1   .text       
+     motocontrol                               CE2E     13C     316       5   .text       
+     laser_setup                               CF6A      11      17       1   .text       
+     laser_main                                CF7B      31      49       1   .text       
+     onemsdelay                                CFAC      1F      31       1   .text       
+     halfmsdelay                               CFCB      1F      31       7   .text       
+     delayforlcd                               CFEA      1F      31       9   .text       
+     sevenseg_config                           D009       F      15       1   .text       
+     seveseg_main                              D018      5D      93       1   .text       
+     LCD_setup                                 D075      2A      42       1   .text       
+     LCD_string                                D09F      35      53       3   .text       
+     LCD_text                                  D0D4      19      25       5   .text       
+     LCD_sensorval                             D0ED      26      38       1   .text       
+     CMDWRT4                                   D113      45      69       7   .text       
+     DATWRT4                                   D158      39      57       3   .text       
+     setupkeypad                               D191      16      22       1   .text       
+     getkey                                    D1A7      AC     172       4   .text       
+     printsensor                               D253      22      34       1   .text       
+     Int_to_string2                            D275      6C     108       4   .text       
+     getsensordata                             D2E1      80     128       1   .text       
+     magnet_init                               D361      11      17       1   .text       
+     hm5883_getrawdata                         D372      80     128       1   .text       
+     magnet_cal_notilt                         D3F2      4F      79       1   .text       
+     accel_init                                D441      1C      28       1   .text       
+     adxl345_getrawdata                        D45D      8B     139       1   .text       
+     accele_cal                                D4E8      78     120       1   .text       
+     gyro_init                                 D560      12      18       1   .text       
+     l3g4200d_getrawdata                       D572      7D     125       1   .text       
+     gyro_cal                                  D5EF       1       1       1   .text       
+     iicinit                                   D5F0       B      11       1   .text       
+     iicresponse                               D5FB      2D      45       3   .text       
+     iicstart                                  D628      41      65       6   .text       
+     iicstop                                   D669       4       4       4   .text       
+     iicrestart                                D66D       8       8       3   .text       
+     iictransmit                               D675       5       5      11   .text       
+     iicswrcv                                  D67A       6       6       3   .text       
+     iicreceive                                D680      24      36       3   .text       
+     iicreceivem1                              D6A4      27      39       3   .text       
+     iicreceivelast                            D6CB      2D      45       3   .text       
+     setAlarm                                  D6F8      12      18       6   .text       
+     TC7_ISR                                   D70A      27      39       1   .text       
+     PLL_Init                                  D731      15      21       1   .text       
+     asm_main                                  D746       7       7       1   MyCode      
+     modf                                      D74D       3       3       1   RUNTIME     
+     frexp                                     D750       3       3       3   RUNTIME     
+     ldexp                                     D753       3       3       8   RUNTIME     
+     F_ADDKL                                   D756      67     103       1   RUNTIME     
+     _FADD                                     D7BD      15      21      43   RUNTIME     
+     _FSUB                                     D7D2      13      19      14   RUNTIME     
+     _FNEG                                     D7E5       B      11       4   RUNTIME     
+     F_MODF                                    D7F0      38      56       1   RUNTIME     
+     F_FREXP                                   D828      1F      31       1   RUNTIME     
+     F_LDEXP                                   D847      15      21       1   RUNTIME     
+     modff                                     D85C      18      24       1   RUNTIME     
+     frexpf                                    D874      19      25       1   RUNTIME     
+     RetErrDom                                 D88D       D      13       1   RUNTIME     
+     ldexpf                                    D89A      1E      30       1   RUNTIME     
+     _FCMP                                     D8B8      26      38      10   RUNTIME     
+     F_TOLONGK                                 D8DE      33      51       1   RUNTIME     
+     F_FRLONGK                                 D911      1F      31       1   RUNTIME     
+     _FSFLOAT                                  D930      12      18       4   RUNTIME     
+     _FSTRUNC                                  D942      11      17       7   RUNTIME     
+     F_DIVKL                                   D953      8E     142       1   RUNTIME     
+     F_MULKL                                   D9E1      58      88       1   RUNTIME     
+     _FMUL                                     DA39      14      20      30   RUNTIME     
+     _FDIV                                     DA4D      1E      30      11   RUNTIME     
+     F_PULK                                    DA6B      15      21       4   RUNTIME     
+     F_PULL                                    DA80      15      21       6   RUNTIME     
+     F_PSHK                                    DA95      13      19       7   RUNTIME     
+     F_STAL                                    DAA8      17      23       1   RUNTIME     
+     F_TLK                                     DABF       D      13       3   RUNTIME     
+     F_XGKL                                    DACC      21      33       2   RUNTIME     
+     F_CLRK                                    DAED       B      11       3   RUNTIME     
+     F_CLRL                                    DAF8       C      12       1   RUNTIME     
+     F_MAXK                                    DB04       9       9       2   RUNTIME     
+     F_NORMK                                   DB0D      3E      62       5   RUNTIME     
+     _LCMP                                     DB4B      19      25       1   RUNTIME     
+     _NEG_P                                    DB64       F      15       1   RUNTIME     
+     _ILSEXT                                   DB73       7       7       5   RUNTIME     
+     _CASE_CHECKED_BYTE                        DB7A      14      20       7   RUNTIME     
+     L_NEGK                                    DB8E       7       7       2   RUNTIME     
+     L_PSHK                                    DB95       8       8       1   RUNTIME     
+     SL_PULK                                   DB9D       A      10       1   RUNTIME     
      _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
+MATH.C.o (ansis.lib):
+  exp log log10 sincos tan sin cos asin acos atan sncsh sinh cosh tanh ceil 
+  floor fmod 
+FADD.C.o (ansis.lib):
+  _FINC _FDEC _FABS 
+FCONV.C.o (ansis.lib):
+  _FUFLOAT _FUTRUNC 
+FREGS.C.o (ansis.lib):
+  F_TKL 
+rtshc12.c.o (ansis.lib):
+  _BSHL _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU 
+  _LSHRS _LADD _LSUB _LAND _LOR _LXOR _LCMP_P _LCMP_PP _LNEG _LCOM _LINC _LDEC 
+  _LMUL _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _LDIVS _LMODU _LMODS _COPY 
+  _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_SEARCH _CASE_SEARCH_BYTE 
+  _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL _FPCMP 
+VREGS.C.o (ansis.lib):
+  UL_PULK 
+sensor.c.o:
+  gyro_test 
 iic.c.o:
-  iicinit iicresponse iicstart iicstop iicrestart iictransmit iicswrcv 
-  iicreceive iicreceivem1 iicreceivelast iicreceiveone setAlarm delay Init_TC7 
+  iicreceiveone delay Init_TC7 
 NOT USED VARIABLES
+MATH.C.o (ansis.lib):
+  small.1 big.2 
+rtshc12.c.o (ansis.lib):
+  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 
 io.c.o:
   validangle validres validfreq validsamp data 
 pwm.c.o:
@@ -2012,8 +2290,8 @@ sevenseg.c.o:
   LCD_dot 
 sensor_on_lcd.c.o:
   unitnum unitdig tenthnum tenthdig hundrednum hundreddig 
-iic.c.o:
-  iic_error_code 
+sensor.c.o:
+  buff magnet_deg gz_deg 
 
 *********************************************************************************************
 COPYDOWN SECTION
@@ -2026,6 +2304,24 @@ _Startup                  USES __SEG_END_SSTACK main
 main                      USES sevenseg_config setupkeypad LCD_setup 
                                 laser_setup resetservie asm_main initialization 
                                 motocontrol 
+logb                      USES frexp 
+isint                     USES modf _FSTRUNC 
+is_special                USES _LCMP 
+pow_i                     USES _FDIV _CASE_CHECKED_BYTE _FMUL 
+exp_r                     USES _FCMP errno infinity fabs exp_r copysign _FMUL 
+                                _FADD _FSTRUNC _ILSEXT _FSFLOAT _FSUB _FDIV ldexp 
+log_r                     USES frexp _FCMP _FADD ldexp _FDIV _FMUL log_r 
+                                _ILSEXT _FSFLOAT 
+pow                       USES is_special _CASE_CHECKED_BYTE pow _FCMP errno 
+                                infinity nan_union _FNEG pow_i isint fabs log_r _FMUL 
+                                exp_r 
+sqrt_r                    USES sqrt_r frexp _FMUL _FADD ldexp _FDIV _ILSEXT 
+sqrt                      USES is_special _CASE_CHECKED_BYTE infinity errno 
+                                nan_union sqrt_r 
+SetSign                   USES fabs _FNEG 
+atan2                     USES errno atan2 is_special _CASE_CHECKED_BYTE 
+                                SetSign fabs logb ldexp _FCMP _FADD _FMUL _FSTRUNC 
+                                _FSUB _FDIV _FNEG 
 initialization            USES maxverti initialization max_angle_t LCD_text 
                                 min_angle_t errorangle maxhori max_angle_h min_angle_h 
                                 resobruh increment errorres frequencie frequency 
@@ -2038,7 +2334,7 @@ motocontrol               USES min_angle_h min_duty_h max_angle_h motocontrol
                                 max_duty_h min_angle_t min_duty_t max_angle_t max_duty_t 
                                 increment duty_increment step_h step_t _PWMDTY67 
                                 _PWMCNT67 _PWMDTY45 _PWMCNT45 i current_duty_h j 
-                                samp_per_ori k laser_measurement seveseg_main printsensor 
+                                samp_per_ori k laser_measurement seveseg_main getsensordata 
                                 laser_main converted current_duty_t 
 laser_setup               USES _DDRT _TSCR1 _TSCR2 _TIOS 
 laser_main                USES _TCTL4 _TFLG1 _TC1 Rraw Fraw Pulsewidth 
@@ -2055,9 +2351,67 @@ setupkeypad               USES _DDRP _PTP _DDRAB _DDRJ _PTJ
 getkey                    USES _PORTAB getkey halfmsdelay column row keypad 
 printsensor               USES CMDWRT4 halfmsdelay Int_to_string2 
 Int_to_string2            USES numbers value_string LCD_sensorval 
+getsensordata             USES PLL_Init iicinit gx_deg gy_deg gyro_init 
+                                accel_init magnet_init gxraw gyraw gzraw 
+                                l3g4200d_getrawdata axraw ayraw azraw adxl345_getrawdata mxraw 
+                                myraw mzraw hm5883_getrawdata accel_deg _FSTRUNC 
+                                heading printsensor 
+magnet_init               USES iicstart iictransmit iicstop 
+hm5883_getrawdata         USES iicstart iictransmit iicrestart iicswrcv 
+                                iicreceive iicreceivem1 iicreceivelast magnet_cal_notilt 
+magnet_cal_notilt         USES atan2 _FMUL _FDIV heading _FSUB _ILSEXT 
+                                _FSFLOAT 
+accel_init                USES iicstart iictransmit iicstop 
+adxl345_getrawdata        USES iicstart iictransmit iicrestart iicswrcv 
+                                iicreceive iicreceivem1 iicreceivelast accele_cal 
+accele_cal                USES pow _FADD sqrt atan2 _FMUL _FDIV _FSUB 
+                                accel_deg _ILSEXT _FSFLOAT 
+gyro_init                 USES iicstart iictransmit iicstop 
+l3g4200d_getrawdata       USES iicstart iictransmit iicrestart iicswrcv 
+                                iicreceive iicreceivem1 iicreceivelast gyro_cal 
+iicinit                   USES _IBFD _IBAD _IBCR 
+iicresponse               USES setAlarm _IBSR alarmSignaled iic_error_code 
+                                iicstop 
+iicstart                  USES setAlarm _IBSR alarmSignaled _IBCR _IBDR 
+                                iic_error_code iicresponse 
+iicstop                   USES _IBCR 
+iicrestart                USES _IBCR _IBDR iicresponse 
+iictransmit               USES _IBDR iicresponse 
+iicswrcv                  USES _IBCR _IBDR 
+iicreceive                USES setAlarm _IBSR alarmSignaled iic_error_code 
+                                _IBDR 
+iicreceivem1              USES setAlarm _IBSR alarmSignaled iic_error_code 
+                                _IBCR _IBDR 
+iicreceivelast            USES setAlarm _IBSR alarmSignaled iic_error_code 
+                                _IBCR _IBDR 
+setAlarm                  USES currentTime alarmTime alarmSet alarmSignaled 
 TC7_ISR                   USES _TCNT _TC7 _TFLG1 currentTime alarmSet 
                                 alarmTime alarmSignaled 
+PLL_Init                  USES _SYNR _REFDV _CLKSEL _PLLCTL _CRGFLG 
 asm_main                  USES temp_byte 
+modf                      USES modff 
+frexp                     USES frexpf 
+ldexp                     USES ldexpf 
+F_ADDKL                   USES F_XGKL F_NORMK 
+_FADD                     USES F_PULK F_PULL F_ADDKL F_PSHK 
+_FSUB                     USES _FADD 
+F_MODF                    USES F_NORMK F_CLRL F_CLRK 
+F_FREXP                   USES F_NORMK 
+modff                     USES F_PULL F_TLK F_MODF F_STAL F_PSHK 
+frexpf                    USES F_PULL F_TLK F_FREXP F_PSHK 
+RetErrDom                 USES errno infinity 
+ldexpf                    USES F_PULL F_TLK F_LDEXP F_PSHK RetErrDom 
+_FSFLOAT                  USES SL_PULK F_FRLONGK F_PSHK 
+_FSTRUNC                  USES F_PULK F_TOLONGK L_PSHK 
+F_DIVKL                   USES F_MAXK F_NORMK 
+F_MULKL                   USES F_CLRK F_NORMK 
+_FMUL                     USES F_PULK F_PULL F_MULKL F_PSHK 
+_FDIV                     USES F_PULL F_PULK F_DIVKL F_PSHK 
+F_MAXK                    USES F_CLRK 
+F_NORMK                   USES F_MAXK 
+L_NEGK                    USES _NEG_P 
+L_PSHK                    USES L_NEGK 
+SL_PULK                   USES L_NEGK 
 _Vector_15                USES TC7_ISR 
 
 *********************************************************************************************
@@ -2117,18 +2471,374 @@ DEPENDENCY TREE
  |     |  | 
  |     |  +- halfmsdelay          (see above)
  |     |     
- |     +- printsensor         
+ |     +- getsensordata       
  |     |  | 
- |     |  +- CMDWRT4              (see above)
+ |     |  +- PLL_Init            
+ |     |  |    
+ |     |  +- iicinit             
+ |     |  |    
+ |     |  +- gyro_init           
+ |     |  |  | 
+ |     |  |  +- iicstart            
+ |     |  |  |  | 
+ |     |  |  |  +- setAlarm            
+ |     |  |  |  |    
+ |     |  |  |  +- iicresponse         
+ |     |  |  |     | 
+ |     |  |  |     +- setAlarm             (see above)
+ |     |  |  |     |  
+ |     |  |  |     +- iicstop             
+ |     |  |  |          
+ |     |  |  +- iictransmit         
+ |     |  |  |  | 
+ |     |  |  |  +- iicresponse          (see above)
+ |     |  |  |     
+ |     |  |  +- iicstop              (see above)
+ |     |  |     
+ |     |  +- accel_init          
+ |     |  |  | 
+ |     |  |  +- iicstart             (see above)
+ |     |  |  |  
+ |     |  |  +- iictransmit          (see above)
+ |     |  |  |  
+ |     |  |  +- iicstop              (see above)
+ |     |  |     
+ |     |  +- magnet_init         
+ |     |  |  | 
+ |     |  |  +- iicstart             (see above)
+ |     |  |  |  
+ |     |  |  +- iictransmit          (see above)
+ |     |  |  |  
+ |     |  |  +- iicstop              (see above)
+ |     |  |     
+ |     |  +- l3g4200d_getrawdata 
+ |     |  |  | 
+ |     |  |  +- iicstart             (see above)
+ |     |  |  |  
+ |     |  |  +- iictransmit          (see above)
+ |     |  |  |  
+ |     |  |  +- iicrestart          
+ |     |  |  |  | 
+ |     |  |  |  +- iicresponse          (see above)
+ |     |  |  |     
+ |     |  |  +- iicswrcv            
+ |     |  |  |    
+ |     |  |  +- iicreceive          
+ |     |  |  |  | 
+ |     |  |  |  +- setAlarm             (see above)
+ |     |  |  |     
+ |     |  |  +- iicreceivem1        
+ |     |  |  |  | 
+ |     |  |  |  +- setAlarm             (see above)
+ |     |  |  |     
+ |     |  |  +- iicreceivelast      
+ |     |  |  |  | 
+ |     |  |  |  +- setAlarm             (see above)
+ |     |  |  |     
+ |     |  |  +- gyro_cal            
+ |     |  |       
+ |     |  +- adxl345_getrawdata  
+ |     |  |  | 
+ |     |  |  +- iicstart             (see above)
+ |     |  |  |  
+ |     |  |  +- iictransmit          (see above)
+ |     |  |  |  
+ |     |  |  +- iicrestart           (see above)
+ |     |  |  |  
+ |     |  |  +- iicswrcv             (see above)
+ |     |  |  |  
+ |     |  |  +- iicreceive           (see above)
+ |     |  |  |  
+ |     |  |  +- iicreceivem1         (see above)
+ |     |  |  |  
+ |     |  |  +- iicreceivelast       (see above)
+ |     |  |  |  
+ |     |  |  +- accele_cal          
+ |     |  |     | 
+ |     |  |     +- pow                 
+ |     |  |     |  | 
+ |     |  |     |  +- is_special          
+ |     |  |     |  |  | 
+ |     |  |     |  |  +- _LCMP               
+ |     |  |     |  |       
+ |     |  |     |  +- _CASE_CHECKED_BYTE  
+ |     |  |     |  |    
+ |     |  |     |  +- _FCMP               
+ |     |  |     |  |    
+ |     |  |     |  +- _FNEG               
+ |     |  |     |  |    
+ |     |  |     |  +- pow_i               
+ |     |  |     |  |  | 
+ |     |  |     |  |  +- _FDIV               
+ |     |  |     |  |  |  | 
+ |     |  |     |  |  |  +- F_PULL              
+ |     |  |     |  |  |  |    
+ |     |  |     |  |  |  +- F_PULK              
+ |     |  |     |  |  |  |    
+ |     |  |     |  |  |  +- F_DIVKL             
+ |     |  |     |  |  |  |  | 
+ |     |  |     |  |  |  |  +- F_MAXK              
+ |     |  |     |  |  |  |  |  | 
+ |     |  |     |  |  |  |  |  +- F_CLRK              
+ |     |  |     |  |  |  |  |       
+ |     |  |     |  |  |  |  +- F_NORMK             
+ |     |  |     |  |  |  |     | 
+ |     |  |     |  |  |  |     +- F_MAXK               (see above)
+ |     |  |     |  |  |  |        
+ |     |  |     |  |  |  +- F_PSHK              
+ |     |  |     |  |  |       
+ |     |  |     |  |  +- _CASE_CHECKED_BYTE   (see above)
+ |     |  |     |  |  |  
+ |     |  |     |  |  +- _FMUL               
+ |     |  |     |  |     | 
+ |     |  |     |  |     +- F_PULK               (see above)
+ |     |  |     |  |     |  
+ |     |  |     |  |     +- F_PULL               (see above)
+ |     |  |     |  |     |  
+ |     |  |     |  |     +- F_MULKL             
+ |     |  |     |  |     |  | 
+ |     |  |     |  |     |  +- F_CLRK               (see above)
+ |     |  |     |  |     |  |  
+ |     |  |     |  |     |  +- F_NORMK              (see above)
+ |     |  |     |  |     |     
+ |     |  |     |  |     +- F_PSHK               (see above)
+ |     |  |     |  |        
+ |     |  |     |  +- isint               
+ |     |  |     |  |  | 
+ |     |  |     |  |  +- modf                
+ |     |  |     |  |  |  | 
+ |     |  |     |  |  |  +- modff               
+ |     |  |     |  |  |     | 
+ |     |  |     |  |  |     +- F_PULL               (see above)
+ |     |  |     |  |  |     |  
+ |     |  |     |  |  |     +- F_TLK               
+ |     |  |     |  |  |     |    
+ |     |  |     |  |  |     +- F_MODF              
+ |     |  |     |  |  |     |  | 
+ |     |  |     |  |  |     |  +- F_NORMK              (see above)
+ |     |  |     |  |  |     |  |  
+ |     |  |     |  |  |     |  +- F_CLRL              
+ |     |  |     |  |  |     |  |    
+ |     |  |     |  |  |     |  +- F_CLRK               (see above)
+ |     |  |     |  |  |     |     
+ |     |  |     |  |  |     +- F_STAL              
+ |     |  |     |  |  |     |    
+ |     |  |     |  |  |     +- F_PSHK               (see above)
+ |     |  |     |  |  |        
+ |     |  |     |  |  +- _FSTRUNC            
+ |     |  |     |  |     | 
+ |     |  |     |  |     +- F_PULK               (see above)
+ |     |  |     |  |     |  
+ |     |  |     |  |     +- F_TOLONGK           
+ |     |  |     |  |     |    
+ |     |  |     |  |     +- L_PSHK              
+ |     |  |     |  |        | 
+ |     |  |     |  |        +- L_NEGK              
+ |     |  |     |  |           | 
+ |     |  |     |  |           +- _NEG_P              
+ |     |  |     |  |                
+ |     |  |     |  +- fabs                
+ |     |  |     |  |    
+ |     |  |     |  +- log_r               
+ |     |  |     |  |  | 
+ |     |  |     |  |  +- frexp               
+ |     |  |     |  |  |  | 
+ |     |  |     |  |  |  +- frexpf              
+ |     |  |     |  |  |     | 
+ |     |  |     |  |  |     +- F_PULL               (see above)
+ |     |  |     |  |  |     |  
+ |     |  |     |  |  |     +- F_TLK                (see above)
+ |     |  |     |  |  |     |  
+ |     |  |     |  |  |     +- F_FREXP             
+ |     |  |     |  |  |     |  | 
+ |     |  |     |  |  |     |  +- F_NORMK              (see above)
+ |     |  |     |  |  |     |     
+ |     |  |     |  |  |     +- F_PSHK               (see above)
+ |     |  |     |  |  |        
+ |     |  |     |  |  +- _FCMP                (see above)
+ |     |  |     |  |  |  
+ |     |  |     |  |  +- _FADD               
+ |     |  |     |  |  |  | 
+ |     |  |     |  |  |  +- F_PULK               (see above)
+ |     |  |     |  |  |  |  
+ |     |  |     |  |  |  +- F_PULL               (see above)
+ |     |  |     |  |  |  |  
+ |     |  |     |  |  |  +- F_ADDKL             
+ |     |  |     |  |  |  |  | 
+ |     |  |     |  |  |  |  +- F_XGKL              
+ |     |  |     |  |  |  |  |    
+ |     |  |     |  |  |  |  +- F_NORMK              (see above)
+ |     |  |     |  |  |  |     
+ |     |  |     |  |  |  +- F_PSHK               (see above)
+ |     |  |     |  |  |     
+ |     |  |     |  |  +- ldexp               
+ |     |  |     |  |  |  | 
+ |     |  |     |  |  |  +- ldexpf              
+ |     |  |     |  |  |     | 
+ |     |  |     |  |  |     +- F_PULL               (see above)
+ |     |  |     |  |  |     |  
+ |     |  |     |  |  |     +- F_TLK                (see above)
+ |     |  |     |  |  |     |  
+ |     |  |     |  |  |     +- F_LDEXP             
+ |     |  |     |  |  |     |    
+ |     |  |     |  |  |     +- F_PSHK               (see above)
+ |     |  |     |  |  |     |  
+ |     |  |     |  |  |     +- RetErrDom           
+ |     |  |     |  |  |          
+ |     |  |     |  |  +- _FDIV                (see above)
+ |     |  |     |  |  |  
+ |     |  |     |  |  +- _FMUL                (see above)
+ |     |  |     |  |  |  
+ |     |  |     |  |  +- _ILSEXT             
+ |     |  |     |  |  |    
+ |     |  |     |  |  +- _FSFLOAT            
+ |     |  |     |  |     | 
+ |     |  |     |  |     +- SL_PULK             
+ |     |  |     |  |     |  | 
+ |     |  |     |  |     |  +- L_NEGK               (see above)
+ |     |  |     |  |     |     
+ |     |  |     |  |     +- F_FRLONGK           
+ |     |  |     |  |     |    
+ |     |  |     |  |     +- F_PSHK               (see above)
+ |     |  |     |  |        
+ |     |  |     |  +- _FMUL                (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- exp_r               
+ |     |  |     |     | 
+ |     |  |     |     +- _FCMP                (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- fabs                 (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- copysign            
+ |     |  |     |     |    
+ |     |  |     |     +- _FMUL                (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- _FADD                (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- _FSTRUNC             (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- _ILSEXT              (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- _FSFLOAT             (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- _FSUB               
+ |     |  |     |     |  | 
+ |     |  |     |     |  +- _FADD                (see above)
+ |     |  |     |     |     
+ |     |  |     |     +- _FDIV                (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- ldexp                (see above)
+ |     |  |     |        
+ |     |  |     +- _FADD                (see above)
+ |     |  |     |  
+ |     |  |     +- sqrt                
+ |     |  |     |  | 
+ |     |  |     |  +- is_special           (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- _CASE_CHECKED_BYTE   (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- sqrt_r              
+ |     |  |     |     | 
+ |     |  |     |     +- frexp                (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- _FMUL                (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- _FADD                (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- ldexp                (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- _FDIV                (see above)
+ |     |  |     |     |  
+ |     |  |     |     +- _ILSEXT              (see above)
+ |     |  |     |        
+ |     |  |     +- atan2               
+ |     |  |     |  | 
+ |     |  |     |  +- is_special           (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- _CASE_CHECKED_BYTE   (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- SetSign             
+ |     |  |     |  |  | 
+ |     |  |     |  |  +- fabs                 (see above)
+ |     |  |     |  |  |  
+ |     |  |     |  |  +- _FNEG                (see above)
+ |     |  |     |  |     
+ |     |  |     |  +- fabs                 (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- logb                
+ |     |  |     |  |  | 
+ |     |  |     |  |  +- frexp                (see above)
+ |     |  |     |  |     
+ |     |  |     |  +- ldexp                (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- _FCMP                (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- _FADD                (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- _FMUL                (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- _FSTRUNC             (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- _FSUB                (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- _FDIV                (see above)
+ |     |  |     |  |  
+ |     |  |     |  +- _FNEG                (see above)
+ |     |  |     |     
+ |     |  |     +- _FMUL                (see above)
+ |     |  |     |  
+ |     |  |     +- _FDIV                (see above)
+ |     |  |     |  
+ |     |  |     +- _FSUB                (see above)
+ |     |  |     |  
+ |     |  |     +- _ILSEXT              (see above)
+ |     |  |     |  
+ |     |  |     +- _FSFLOAT             (see above)
+ |     |  |        
+ |     |  +- hm5883_getrawdata   
+ |     |  |  | 
+ |     |  |  +- iicstart             (see above)
+ |     |  |  |  
+ |     |  |  +- iictransmit          (see above)
+ |     |  |  |  
+ |     |  |  +- iicrestart           (see above)
+ |     |  |  |  
+ |     |  |  +- iicswrcv             (see above)
+ |     |  |  |  
+ |     |  |  +- iicreceive           (see above)
+ |     |  |  |  
+ |     |  |  +- iicreceivem1         (see above)
+ |     |  |  |  
+ |     |  |  +- iicreceivelast       (see above)
+ |     |  |  |  
+ |     |  |  +- magnet_cal_notilt   
+ |     |  |     | 
+ |     |  |     +- atan2                (see above)
+ |     |  |     |  
+ |     |  |     +- _FMUL                (see above)
+ |     |  |     |  
+ |     |  |     +- _FDIV                (see above)
+ |     |  |     |  
+ |     |  |     +- _FSUB                (see above)
+ |     |  |     |  
+ |     |  |     +- _ILSEXT              (see above)
+ |     |  |     |  
+ |     |  |     +- _FSFLOAT             (see above)
+ |     |  |        
+ |     |  +- _FSTRUNC             (see above)
  |     |  |  
- |     |  +- halfmsdelay          (see above)
- |     |  |  
- |     |  +- Int_to_string2      
+ |     |  +- printsensor         
  |     |     | 
- |     |     +- LCD_sensorval       
+ |     |     +- CMDWRT4              (see above)
+ |     |     |  
+ |     |     +- halfmsdelay          (see above)
+ |     |     |  
+ |     |     +- Int_to_string2      
  |     |        | 
- |     |        +- DATWRT4              (see above)
- |     |           
+ |     |        +- LCD_sensorval       
+ |     |           | 
+ |     |           +- DATWRT4              (see above)
+ |     |              
  |     +- laser_main          
  |          
  +- _Startup            
@@ -2145,6 +2855,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 3
-Total size of all blocks to be downloaded: 1779
+Number of blocks to be downloaded: 5
+Total size of all blocks to be downloaded: 7083
 
