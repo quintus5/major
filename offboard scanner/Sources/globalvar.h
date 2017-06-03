@@ -1,5 +1,4 @@
-#include <hidef.h>      /* common defines and macros */
-#include "derivative.h"      /* derivative-specific definitions */
+
 #include <math.h>
 
 #ifndef globalvar_h
@@ -16,7 +15,5 @@ extern unsigned char max_angle_h;
 extern unsigned char min_angle_h;
 extern unsigned char max_angle_t;
 extern unsigned char min_angle_t;
-
-
 
 #endif

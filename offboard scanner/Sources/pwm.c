@@ -1,9 +1,11 @@
 #include "pwm.h"
+#include "globalvar.h"
 #include "laser.h"
 #include "sevenseg.h"
-#include "globalvar.h"
 #include "sensor_on_lcd.h"
-
+#include "sensor.h"
+#include <hidef.h>      /* common defines and macros */
+#include "derivative.h"      /* derivative-specific definitions */
 
 int i, j, k, h, h_final, w, w_final;
 int converted;
@@ -68,7 +70,7 @@ void resetservie(void){
 }
 
 void motocontrol(void){
-	int checktai = 0;																	// max range |
+	int checktai = clear;																	// max range |
   min_duty_h = 2700+min_angle_h*20;         // 3500
   max_duty_h = 2700+max_angle_h*20;         // 5500
   min_duty_t = 2700+min_angle_t*20;         // 4000
@@ -85,12 +87,12 @@ void motocontrol(void){
   for (i = 0; i <= step_h; i++){
 			// increment current duty cycle by input resolution
  
-//maximum horizontal distance is 1.43 m for 1.2 m measurement
+      //maximum horizontal distance is 1.43 m for 1.2 m measurement
     	current_duty_h = min_duty_h+duty_increment*i;
     	PWMDTY67 = current_duty_h;	// output to PWM
     	PWMCNT67 = 0x00; //clear register
 
-    	if(checktai == 0){
+    	if(checktai == clear){
           	for (j = 0; j <= step_t; j++){ 			//< or <= steps
             current_duty_t = min_duty_t+duty_increment*j;
         		PWMDTY45 = current_duty_t;
@@ -104,7 +106,8 @@ void motocontrol(void){
     				laser_measurement = 0;        // reset variable
     			// may need to check if all the calculation and displayng takes longer than servo delay
         	  printsensor();
-            }      
+            }
+            checktai = set;      
     	}
       else{
           for (j = 0; j <= step_t; j++){ 			//< or <= steps
@@ -117,17 +120,12 @@ void motocontrol(void){
 				    }
          		laser_measurement = laser_measurement/samp_per_ori; //average measurements
     			  seveseg_main(laser_measurement);    // output to sevenseg
-    				laser_measurement = 0;        // reset variable
+    				laser_measurement = clear;        // reset variable
     			// may need to check if all the calculation and displayng takes longer than servo delay
         	printsensor();
-       }       
+       }
+       checktai = clear;       
      }		
-    if(checktai == 0){
-    checktai = 1;
-    } 
-    else{
-    checktai = 0;
-    }
   }
 }
 

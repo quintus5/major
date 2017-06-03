@@ -1,4 +1,6 @@
 #include "sevenseg.h"
+#include <hidef.h>      /* common defines and macros */
+#include "derivative.h"      /* derivative-specific definitions */
 #include "globalvar.h"
 
 const char LCD_dot[10] = {0xBF,0x86,0xDB,0xCF,0xE6,0xED,0xFE,0x87,0xFF,0xDF}; // if output in meters
@@ -16,6 +18,14 @@ void halfmsdelay(int time){
   int i,j;
   for(i = 0; i <= time; i++){
     for(j = 0; j < 1000; j++){       
+    }
+  }
+}
+
+void delayforlcd(int time){  
+  int i,j;
+  for(i = 0; i <= time; i++){
+    for(j = 0; j < 4000; j++){       
     }
   }
 }

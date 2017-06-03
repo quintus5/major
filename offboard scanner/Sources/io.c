@@ -1,7 +1,9 @@
 #include "io.h"
-#include "pwm.h"
-#include "keypad.h"
+#include "globalvar.h"
+#include "sevenseg.h"
 #include "LCD.h"
+#include "keypad.h"
+
 
 // predefined strings
 const unsigned char maxverti[]   = "vertical(1-5)";

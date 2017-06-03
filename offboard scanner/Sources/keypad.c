@@ -1,6 +1,7 @@
 #include "keypad.h"
 #include "sevenseg.h"
-#include "globalvar.h"
+#include <hidef.h>      /* common defines and macros */
+#include "derivative.h"      /* derivative-specific definitions */
 
 const unsigned char keypad[4][4] =
 {

@@ -5,28 +5,28 @@
 #include "sevenseg.h"
 #include "keypad.h"
 #include "LCD.h"
-
-
 #include "main_asm.h" /* interface to the assembly module */
+#include <hidef.h>      /* common defines and macros */
+#include "derivative.h"      /* derivative-specific definitions */
 
 
 //***********************************main************************
 void main(void) {
-
+	DisableInterrupts;
 	// configure seven segment display
 	sevenseg_config();
 	setupkeypad();    // keypad
-  LCD_setup();      //lcd display
+  	LCD_setup();      //lcd display
 	// configure laser(timer)
 	laser_setup();
 	// set all pwm register for servo, and put it in 90 degree hori and vertical
 	resetservie();
 	EnableInterrupts;
-  asm_main(); /* call the assembly function */
+  	asm_main(); /* call the assembly function */
 	// get all user input here
 	initialization();
 	// all the scanning is done here	
-  motocontrol();
+ 	motocontrol();
 	// may be do calculation here
 
 

@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "\\MXLABSERVER1\Users\twan8752\Desktop\offboard scanner\bin\Project.absHCS12_Serial_Monitor.abs"
+PROGRAM "D:\document\MMAAAAJJJOOOORRR\offboard scanner\bin\Project.absHCS12_Serial_Monitor.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -23,6 +23,7 @@ sevenseg.c.o                            Model: SMALL,         Lang: ANSI-C
 LCD.c.o                                 Model: SMALL,         Lang: ANSI-C
 keypad.c.o                              Model: SMALL,         Lang: ANSI-C
 sensor_on_lcd.c.o                       Model: SMALL,         Lang: ANSI-C
+iic.c.o                                 Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -34,8 +35,8 @@ SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             16     R     0xC000     0xC00F   ROM_C000
-.rodata                          183     R     0xC010     0xC0C6   ROM_C000
-.text                           1579     R     0xC0C7     0xC6F1   ROM_C000
+.rodata                          192     R     0xC010     0xC0CF   ROM_C000
+.text                           1589     R     0xC0D0     0xC704   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .data                              8   R/W     0x1100     0x1107   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
@@ -379,15 +380,16 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_17e                   2   N/I      0x17E      0x17F   .absSeg338
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg339
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
-.bss                               2   R/W     0x1108     0x1109   RAM
-MyCode                             7     R     0xC6F2     0xC6F8   ROM_C000
-MY_EXTENDED_RAM                    1   R/W     0x110A     0x110A   RAM
-.common                           57   R/W     0x110B     0x1143   RAM
-.vectSeg341_vect                   2     R     0xFFFE     0xFFFF   .vectSeg341
+.abs_section_ffe0                  2     R     0xFFE0     0xFFE1   .absSeg341
+.bss                               8   R/W     0x1108     0x110F   RAM
+MyCode                             7     R     0xC705     0xC70B   ROM_C000
+MY_EXTENDED_RAM                    1   R/W     0x1110     0x1110   RAM
+.common                           48   R/W     0x1111     0x1140   RAM
+.vectSeg342_vect                   2     R     0xFFFE     0xFFFF   .vectSeg342
 
 Summary of section sizes per section type:
-READ_ONLY (R):         6FB (dec:     1787)
-READ_WRITE (R/W):      144 (dec:      324)
+READ_ONLY (R):         710 (dec:     1808)
+READ_WRITE (R/W):      141 (dec:      321)
 NO_INIT (N/I):         190 (dec:      400)
 
 *********************************************************************************************
@@ -429,7 +431,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _BKP1H                                      2E       1       1       0   .abs_section_2e
      _BKP1L                                      2F       1       1       0   .abs_section_2f
      _PPAGE                                      30       1       1       0   .abs_section_30
-     _PORTK                                      32       1       1      14   .abs_section_32
+     _PORTK                                      32       1       1      16   .abs_section_32
      _DDRK                                       33       1       1       1   .abs_section_33
      _SYNR                                       34       1       1       0   .abs_section_34
      _REFDV                                      35       1       1       0   .abs_section_35
@@ -452,7 +454,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _TCTL4                                      4B       1       1       2   .abs_section_4b
      _TIE                                        4C       1       1       0   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
-     _TFLG1                                      4E       1       1       4   .abs_section_4e
+     _TFLG1                                      4E       1       1       5   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
      _PACTL                                      60       1       1       0   .abs_section_60
      _PAFLG                                      61       1       1       0   .abs_section_61
@@ -688,7 +690,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PORTAB                                      0       2       2      13   .abs_section_0
      _DDRAB                                       2       2       2       3   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
-     _TCNT                                       44       2       2       0   .abs_section_44
+     _TCNT                                       44       2       2       1   .abs_section_44
      _TC0                                        50       2       2       0   .abs_section_50
      _TC1                                        52       2       2       2   .abs_section_52
      _TC2                                        54       2       2       0   .abs_section_54
@@ -696,7 +698,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _TC4                                        58       2       2       0   .abs_section_58
      _TC5                                        5A       2       2       0   .abs_section_5a
      _TC6                                        5C       2       2       0   .abs_section_5c
-     _TC7                                        5E       2       2       0   .abs_section_5e
+     _TC7                                        5E       2       2       1   .abs_section_5e
      _PACN32                                     62       2       2       0   .abs_section_62
      _PACN10                                     64       2       2       0   .abs_section_64
      _PA32H                                      72       2       2       0   .abs_section_72
@@ -746,13 +748,13 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                      C0C7      23      35       1   .text       
+     main                                      C0D0      25      37       1   .text       
 - VARIABLES:
 MODULE:                 -- main.asm.o --
 - PROCEDURES:
-     asm_main                                  C6F2       7       7       1   MyCode      
+     asm_main                                  C705       7       7       1   MyCode      
 - VARIABLES:
-     temp_byte                                 110A       1       1       1   MY_EXTENDED_RAM
+     temp_byte                                 1110       1       1       1   MY_EXTENDED_RAM
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
      _Startup                                  C000      10      16       0   .init       
@@ -761,7 +763,7 @@ MODULE:                 -- Start12.c.o --
      __SEG_END_SSTACK                          1100       0       0       1               
 MODULE:                 -- io.c.o --
 - PROCEDURES:
-     initialization                            C0EA      F1     241       4   .text       
+     initialization                            C0F5      F1     241       4   .text       
 - VARIABLES:
      maxverti                                  C010       E      14       1   .rodata     
      maxhori                                   C01E      10      16       1   .rodata     
@@ -773,99 +775,104 @@ MODULE:                 -- io.c.o --
      sampling                                  C07C       E      14       1   .rodata     
      errorsamp                                 C08A       9       9       1   .rodata     
      sensortitle                               C093      10      16       1   .rodata     
-     increment                                 110B       1       1       5   .common     
-     frequency                                 110C       1       1       6   .common     
-     samp_per_ori                              110D       1       1       6   .common     
-     max_angle_h                               110E       1       1       7   .common     
-     max_angle_t                               110F       1       1       7   .common     
-     min_angle_h                               1110       1       1       2   .common     
-     min_angle_t                               1111       1       1       2   .common     
+     increment                                 1111       1       1       5   .common     
+     frequency                                 1112       1       1       6   .common     
+     samp_per_ori                              1113       1       1       6   .common     
+     max_angle_h                               1114       1       1       7   .common     
+     max_angle_t                               1115       1       1       7   .common     
+     min_angle_h                               1116       1       1       2   .common     
+     min_angle_t                               1117       1       1       2   .common     
 MODULE:                 -- pwm.c.o --
 - PROCEDURES:
-     resetservie                               C1DB      27      39       1   .text       
-     motocontrol                               C202     141     321       5   .text       
+     resetservie                               C1E6      27      39       1   .text       
+     motocontrol                               C20D     13C     316       5   .text       
 - VARIABLES:
      laser_measurement                         1108       2       2       5   .bss        
-     i                                         1112       2       2       5   .common     
-     j                                         1114       2       2       8   .common     
-     k                                         1116       2       2       5   .common     
-     converted                                 1118       2       2       1   .common     
-     duty_increment                            111A       2       2       4   .common     
-     max_duty_h                                111C       2       2       1   .common     
-     max_duty_t                                111E       2       2       2   .common     
-     min_duty_h                                1120       2       2       3   .common     
-     min_duty_t                                1122       2       2       3   .common     
-     step_h                                    1124       2       2       2   .common     
-     step_t                                    1126       2       2       3   .common     
-     current_duty_h                            1128       2       2       1   .common     
-     current_duty_t                            112A       2       2       1   .common     
+     i                                         1118       2       2       5   .common     
+     j                                         111A       2       2       8   .common     
+     k                                         111C       2       2       5   .common     
+     converted                                 111E       2       2       1   .common     
+     duty_increment                            1120       2       2       4   .common     
+     max_duty_h                                1122       2       2       1   .common     
+     max_duty_t                                1124       2       2       2   .common     
+     min_duty_h                                1126       2       2       3   .common     
+     min_duty_t                                1128       2       2       3   .common     
+     step_h                                    112A       2       2       2   .common     
+     step_t                                    112C       2       2       3   .common     
+     current_duty_h                            112E       2       2       1   .common     
+     current_duty_t                            1130       2       2       1   .common     
 MODULE:                 -- laser.c.o --
 - PROCEDURES:
-     laser_setup                               C343      11      17       1   .text       
-     laser_main                                C354      31      49       1   .text       
+     laser_setup                               C349      11      17       1   .text       
+     laser_main                                C35A      31      49       1   .text       
 - VARIABLES:
-     Fraw                                      112C       2       2       1   .common     
-     Rraw                                      112E       2       2       2   .common     
-     Pulsewidth                                1130       2       2       1   .common     
-     Distance_in_cm                            1132       2       2       1   .common     
+     Fraw                                      1132       2       2       1   .common     
+     Rraw                                      1134       2       2       2   .common     
+     Pulsewidth                                1136       2       2       1   .common     
+     Distance_in_cm                            1138       2       2       1   .common     
 MODULE:                 -- sevenseg.c.o --
 - PROCEDURES:
-     onemsdelay                                C385      1F      31       1   .text       
-     halfmsdelay                               C3A4      1F      31      18   .text       
-     sevenseg_config                           C3C3       F      15       1   .text       
-     seveseg_main                              C3D2      5D      93       1   .text       
+     onemsdelay                                C38B      1F      31       1   .text       
+     halfmsdelay                               C3AA      1F      31       7   .text       
+     delayforlcd                               C3C9      1F      31       9   .text       
+     sevenseg_config                           C3E8       F      15       1   .text       
+     seveseg_main                              C3F7      5D      93       1   .text       
 - VARIABLES:
      LCD_nodot                                 C0A3       A      10       2   .rodata     
 MODULE:                 -- LCD.c.o --
 - PROCEDURES:
-     LCD_setup                                 C42F      2A      42       1   .text       
-     LCD_string                                C459      3B      59       3   .text       
-     LCD_text                                  C494      19      25       5   .text       
-     LCD_sensorval                             C4AD      26      38       1   .text       
-     CMDWRT4                                   C4D3      49      73       6   .text       
-     DATWRT4                                   C51C      4A      74       3   .text       
+     LCD_setup                                 C454      2A      42       1   .text       
+     LCD_string                                C47E      35      53       3   .text       
+     LCD_text                                  C4B3      19      25       5   .text       
+     LCD_sensorval                             C4CC      26      38       1   .text       
+     CMDWRT4                                   C4F2      45      69       7   .text       
+     DATWRT4                                   C537      39      57       3   .text       
 - VARIABLES:
 MODULE:                 -- keypad.c.o --
 - PROCEDURES:
-     setupkeypad                               C566      16      22       1   .text       
-     getkey                                    C57C      AC     172       4   .text       
+     setupkeypad                               C570      16      22       1   .text       
+     getkey                                    C586      AC     172       4   .text       
 - VARIABLES:
      keypad                                    C0AD      10      16       4   .rodata     
-     column                                    1134       1       1       6   .common     
-     row                                       1135       1       1       3   .common     
+     column                                    113A       1       1       6   .common     
+     row                                       113B       1       1       3   .common     
 MODULE:                 -- sensor_on_lcd.c.o --
 - PROCEDURES:
-     printsensor                               C628      40      64       1   .text       
-     Int_to_string                             C668      8A     138       4   .text       
+     printsensor                               C632      40      64       1   .text       
+     Int_to_string2                            C672      6C     108       4   .text       
 - VARIABLES:
-     numbers                                   C0BD       A      10       3   .rodata     
+     numbers                                   C0BD      13      19       4   .rodata     
      accelerometer                             1100       2       2       3   .data       
      gyroheading                               1102       2       2       3   .data       
      gyroelevation                             1104       2       2       3   .data       
      magnetometer                              1106       2       2       3   .data       
-     unitnum                                   1136       2       2       2   .common     
-     unitdig                                   1138       1       1       2   .common     
-     tenthnum                                  1139       2       2       5   .common     
-     tenthdig                                  113B       1       1       2   .common     
-     hundrednum                                113C       2       2       6   .common     
-     hundreddig                                113E       1       1       2   .common     
-     value_string                              113F       5       5       5   .common     
+     value_string                              113C       5       5       8   .common     
+MODULE:                 -- iic.c.o --
+- PROCEDURES:
+     TC7_ISR                                   C6DE      27      39       1   .text       
+- VARIABLES:
+     alarmSignaled                             110A       1       1       1   .bss        
+     currentTime                               110B       2       2       3   .bss        
+     alarmTime                                 110D       2       2       1   .bss        
+     alarmSet                                  110F       1       1       2   .bss        
+     _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  main.c.o                                     0     35      0
+  main.c.o                                     0     37      0
   main.asm.o                                   1      7      0
   Start12.c.o                                  0     16      0
   io.c.o                                       7    241    147
-  pwm.c.o                                     28    360      0
+  pwm.c.o                                     28    355      0
   laser.c.o                                    8     66      0
-  sevenseg.c.o                                 0    170     10
-  LCD.c.o                                      0    311      0
+  sevenseg.c.o                                 0    201     10
+  LCD.c.o                                      0    284      0
   keypad.c.o                                   2    194     16
-  sensor_on_lcd.c.o                           22    202     10
+  sensor_on_lcd.c.o                           13    172     19
+  iic.c.o                                      6     39      2
   other                                      256      2      0
 
 *********************************************************************************************
@@ -873,13 +880,13 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
   main initialization resetservie motocontrol laser_setup laser_main 
-  onemsdelay halfmsdelay sevenseg_config seveseg_main LCD_setup LCD_string 
-  LCD_text LCD_sensorval CMDWRT4 DATWRT4 setupkeypad getkey printsensor 
-  Int_to_string 
+  onemsdelay halfmsdelay delayforlcd sevenseg_config seveseg_main LCD_setup 
+  LCD_string LCD_text LCD_sensorval CMDWRT4 DATWRT4 setupkeypad getkey 
+  printsensor Int_to_string2 TC7_ISR 
 SECTION: ".data"
   accelerometer gyroheading gyroelevation magnetometer 
 SECTION: ".bss"
-  laser_measurement 
+  laser_measurement alarmSignaled currentTime alarmTime alarmSet 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
@@ -1575,8 +1582,9 @@ SECTION: ".common"
   increment frequency samp_per_ori max_angle_h max_angle_t min_angle_h 
   min_angle_t i j k converted duty_increment max_duty_h max_duty_t min_duty_h 
   min_duty_t step_h step_t current_duty_h current_duty_t Fraw Rraw Pulsewidth 
-  Distance_in_cm column row unitnum unitdig tenthnum tenthdig hundrednum 
-  hundreddig value_string 
+  Distance_in_cm column row value_string 
+SECTION: ".abs_section_ffe0"
+  _Vector_15 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
@@ -1611,7 +1619,7 @@ OBJECT LIST SORTED BY ADDRESS
      _BKP1H                                      2E       1       1       0   .abs_section_2e
      _BKP1L                                      2F       1       1       0   .abs_section_2f
      _PPAGE                                      30       1       1       0   .abs_section_30
-     _PORTK                                      32       1       1      14   .abs_section_32
+     _PORTK                                      32       1       1      16   .abs_section_32
      _DDRK                                       33       1       1       1   .abs_section_33
      _SYNR                                       34       1       1       0   .abs_section_34
      _REFDV                                      35       1       1       0   .abs_section_35
@@ -1626,7 +1634,7 @@ OBJECT LIST SORTED BY ADDRESS
      _CFORC                                      41       1       1       0   .abs_section_41
      _OC7M                                       42       1       1       0   .abs_section_42
      _OC7D                                       43       1       1       0   .abs_section_43
-     _TCNT                                       44       2       2       0   .abs_section_44
+     _TCNT                                       44       2       2       1   .abs_section_44
      _TSCR1                                      46       1       1       1   .abs_section_46
      _TTOV                                       47       1       1       0   .abs_section_47
      _TCTL1                                      48       1       1       0   .abs_section_48
@@ -1635,7 +1643,7 @@ OBJECT LIST SORTED BY ADDRESS
      _TCTL4                                      4B       1       1       2   .abs_section_4b
      _TIE                                        4C       1       1       0   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
-     _TFLG1                                      4E       1       1       4   .abs_section_4e
+     _TFLG1                                      4E       1       1       5   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
      _TC0                                        50       2       2       0   .abs_section_50
      _TC1                                        52       2       2       2   .abs_section_52
@@ -1644,7 +1652,7 @@ OBJECT LIST SORTED BY ADDRESS
      _TC4                                        58       2       2       0   .abs_section_58
      _TC5                                        5A       2       2       0   .abs_section_5a
      _TC6                                        5C       2       2       0   .abs_section_5c
-     _TC7                                        5E       2       2       0   .abs_section_5e
+     _TC7                                        5E       2       2       1   .abs_section_5e
      _PACTL                                      60       1       1       0   .abs_section_60
      _PAFLG                                      61       1       1       0   .abs_section_61
      _PACN32                                     62       2       2       0   .abs_section_62
@@ -1928,40 +1936,38 @@ OBJECT LIST SORTED BY ADDRESS
      gyroelevation                             1104       2       2       3   .data       
      magnetometer                              1106       2       2       3   .data       
      laser_measurement                         1108       2       2       5   .bss        
-     temp_byte                                 110A       1       1       1   MY_EXTENDED_RAM
-     increment                                 110B       1       1       5   .common     
-     frequency                                 110C       1       1       6   .common     
-     samp_per_ori                              110D       1       1       6   .common     
-     max_angle_h                               110E       1       1       7   .common     
-     max_angle_t                               110F       1       1       7   .common     
-     min_angle_h                               1110       1       1       2   .common     
-     min_angle_t                               1111       1       1       2   .common     
-     i                                         1112       2       2       5   .common     
-     j                                         1114       2       2       8   .common     
-     k                                         1116       2       2       5   .common     
-     converted                                 1118       2       2       1   .common     
-     duty_increment                            111A       2       2       4   .common     
-     max_duty_h                                111C       2       2       1   .common     
-     max_duty_t                                111E       2       2       2   .common     
-     min_duty_h                                1120       2       2       3   .common     
-     min_duty_t                                1122       2       2       3   .common     
-     step_h                                    1124       2       2       2   .common     
-     step_t                                    1126       2       2       3   .common     
-     current_duty_h                            1128       2       2       1   .common     
-     current_duty_t                            112A       2       2       1   .common     
-     Fraw                                      112C       2       2       1   .common     
-     Rraw                                      112E       2       2       2   .common     
-     Pulsewidth                                1130       2       2       1   .common     
-     Distance_in_cm                            1132       2       2       1   .common     
-     column                                    1134       1       1       6   .common     
-     row                                       1135       1       1       3   .common     
-     unitnum                                   1136       2       2       2   .common     
-     unitdig                                   1138       1       1       2   .common     
-     tenthnum                                  1139       2       2       5   .common     
-     tenthdig                                  113B       1       1       2   .common     
-     hundrednum                                113C       2       2       6   .common     
-     hundreddig                                113E       1       1       2   .common     
-     value_string                              113F       5       5       5   .common     
+     alarmSignaled                             110A       1       1       1   .bss        
+     currentTime                               110B       2       2       3   .bss        
+     alarmTime                                 110D       2       2       1   .bss        
+     alarmSet                                  110F       1       1       2   .bss        
+     temp_byte                                 1110       1       1       1   MY_EXTENDED_RAM
+     increment                                 1111       1       1       5   .common     
+     frequency                                 1112       1       1       6   .common     
+     samp_per_ori                              1113       1       1       6   .common     
+     max_angle_h                               1114       1       1       7   .common     
+     max_angle_t                               1115       1       1       7   .common     
+     min_angle_h                               1116       1       1       2   .common     
+     min_angle_t                               1117       1       1       2   .common     
+     i                                         1118       2       2       5   .common     
+     j                                         111A       2       2       8   .common     
+     k                                         111C       2       2       5   .common     
+     converted                                 111E       2       2       1   .common     
+     duty_increment                            1120       2       2       4   .common     
+     max_duty_h                                1122       2       2       1   .common     
+     max_duty_t                                1124       2       2       2   .common     
+     min_duty_h                                1126       2       2       3   .common     
+     min_duty_t                                1128       2       2       3   .common     
+     step_h                                    112A       2       2       2   .common     
+     step_t                                    112C       2       2       3   .common     
+     current_duty_h                            112E       2       2       1   .common     
+     current_duty_t                            1130       2       2       1   .common     
+     Fraw                                      1132       2       2       1   .common     
+     Rraw                                      1134       2       2       2   .common     
+     Pulsewidth                                1136       2       2       1   .common     
+     Distance_in_cm                            1138       2       2       1   .common     
+     column                                    113A       1       1       6   .common     
+     row                                       113B       1       1       3   .common     
+     value_string                              113C       5       5       8   .common     
      _Startup                                  C000      10      16       0   .init       
      maxverti                                  C010       E      14       1   .rodata     
      maxhori                                   C01E      10      16       1   .rodata     
@@ -1975,32 +1981,41 @@ OBJECT LIST SORTED BY ADDRESS
      sensortitle                               C093      10      16       1   .rodata     
      LCD_nodot                                 C0A3       A      10       2   .rodata     
      keypad                                    C0AD      10      16       4   .rodata     
-     numbers                                   C0BD       A      10       3   .rodata     
-     main                                      C0C7      23      35       1   .text       
-     initialization                            C0EA      F1     241       4   .text       
-     resetservie                               C1DB      27      39       1   .text       
-     motocontrol                               C202     141     321       5   .text       
-     laser_setup                               C343      11      17       1   .text       
-     laser_main                                C354      31      49       1   .text       
-     onemsdelay                                C385      1F      31       1   .text       
-     halfmsdelay                               C3A4      1F      31      18   .text       
-     sevenseg_config                           C3C3       F      15       1   .text       
-     seveseg_main                              C3D2      5D      93       1   .text       
-     LCD_setup                                 C42F      2A      42       1   .text       
-     LCD_string                                C459      3B      59       3   .text       
-     LCD_text                                  C494      19      25       5   .text       
-     LCD_sensorval                             C4AD      26      38       1   .text       
-     CMDWRT4                                   C4D3      49      73       6   .text       
-     DATWRT4                                   C51C      4A      74       3   .text       
-     setupkeypad                               C566      16      22       1   .text       
-     getkey                                    C57C      AC     172       4   .text       
-     printsensor                               C628      40      64       1   .text       
-     Int_to_string                             C668      8A     138       4   .text       
-     asm_main                                  C6F2       7       7       1   MyCode      
+     numbers                                   C0BD      13      19       4   .rodata     
+     main                                      C0D0      25      37       1   .text       
+     initialization                            C0F5      F1     241       4   .text       
+     resetservie                               C1E6      27      39       1   .text       
+     motocontrol                               C20D     13C     316       5   .text       
+     laser_setup                               C349      11      17       1   .text       
+     laser_main                                C35A      31      49       1   .text       
+     onemsdelay                                C38B      1F      31       1   .text       
+     halfmsdelay                               C3AA      1F      31       7   .text       
+     delayforlcd                               C3C9      1F      31       9   .text       
+     sevenseg_config                           C3E8       F      15       1   .text       
+     seveseg_main                              C3F7      5D      93       1   .text       
+     LCD_setup                                 C454      2A      42       1   .text       
+     LCD_string                                C47E      35      53       3   .text       
+     LCD_text                                  C4B3      19      25       5   .text       
+     LCD_sensorval                             C4CC      26      38       1   .text       
+     CMDWRT4                                   C4F2      45      69       7   .text       
+     DATWRT4                                   C537      39      57       3   .text       
+     setupkeypad                               C570      16      22       1   .text       
+     getkey                                    C586      AC     172       4   .text       
+     printsensor                               C632      40      64       1   .text       
+     Int_to_string2                            C672      6C     108       4   .text       
+     TC7_ISR                                   C6DE      27      39       1   .text       
+     asm_main                                  C705       7       7       1   MyCode      
+     _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
+NOT USED PROCEDURES
+sensor_on_lcd.c.o:
+  Int_to_string 
+iic.c.o:
+  iicinit iicresponse iicstart iicstop iicrestart iictransmit iicswrcv 
+  iicreceive iicreceivem1 iicreceivelast iicreceiveone setAlarm delay Init_TC7 
 NOT USED VARIABLES
 io.c.o:
   validangle validres validfreq validsamp data 
@@ -2008,6 +2023,10 @@ pwm.c.o:
   h h_final w w_final box_or_nobox central h_angle w_angle width height area 
 sevenseg.c.o:
   LCD_dot 
+sensor_on_lcd.c.o:
+  unitnum unitdig tenthnum tenthdig hundrednum hundreddig 
+iic.c.o:
+  iic_error_code 
 
 *********************************************************************************************
 COPYDOWN SECTION
@@ -2039,19 +2058,21 @@ laser_main                USES _TCTL4 _TFLG1 _TC1 Rraw Fraw Pulsewidth
                                 Distance_in_cm 
 sevenseg_config           USES _DDRAB _DDRP _DDRJ _PTJ 
 seveseg_main              USES _PTP LCD_nodot _PORTAB frequency halfmsdelay 
-LCD_setup                 USES _DDRK CMDWRT4 halfmsdelay 
-LCD_string                USES halfmsdelay DATWRT4 CMDWRT4 
-LCD_text                  USES CMDWRT4 halfmsdelay DATWRT4 
+LCD_setup                 USES _DDRK CMDWRT4 delayforlcd 
+LCD_string                USES CMDWRT4 delayforlcd DATWRT4 
+LCD_text                  USES CMDWRT4 delayforlcd DATWRT4 
 LCD_sensorval             USES DATWRT4 
-CMDWRT4                   USES _PORTK halfmsdelay 
-DATWRT4                   USES halfmsdelay _PORTK 
+CMDWRT4                   USES _PORTK delayforlcd 
+DATWRT4                   USES _PORTK halfmsdelay 
 setupkeypad               USES _DDRP _PTP _DDRAB _DDRJ _PTJ 
 getkey                    USES _PORTAB getkey halfmsdelay column row keypad 
-printsensor               USES CMDWRT4 halfmsdelay accelerometer Int_to_string 
-                                gyroheading gyroelevation magnetometer 
-Int_to_string             USES hundrednum tenthnum unitnum numbers hundreddig 
-                                tenthdig unitdig value_string LCD_sensorval 
+printsensor               USES CMDWRT4 halfmsdelay accelerometer 
+                                Int_to_string2 gyroheading gyroelevation magnetometer 
+Int_to_string2            USES numbers value_string LCD_sensorval 
+TC7_ISR                   USES _TCNT _TC7 _TFLG1 currentTime alarmSet 
+                                alarmTime alarmSignaled 
 asm_main                  USES temp_byte 
+_Vector_15                USES TC7_ISR 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -2068,9 +2089,9 @@ DEPENDENCY TREE
  |  |  | 
  |  |  +- CMDWRT4             
  |  |  |  | 
- |  |  |  +- halfmsdelay         
+ |  |  |  +- delayforlcd         
  |  |  |       
- |  |  +- halfmsdelay          (see above)
+ |  |  +- delayforlcd          (see above)
  |  |     
  |  +- laser_setup         
  |  |    
@@ -2084,19 +2105,19 @@ DEPENDENCY TREE
  |  |  |  | 
  |  |  |  +- CMDWRT4              (see above)
  |  |  |  |  
- |  |  |  +- halfmsdelay          (see above)
+ |  |  |  +- delayforlcd          (see above)
  |  |  |  |  
  |  |  |  +- DATWRT4             
  |  |  |     | 
- |  |  |     +- halfmsdelay          (see above)
- |  |  |        
+ |  |  |     +- halfmsdelay         
+ |  |  |          
  |  |  +- LCD_string          
  |  |  |  | 
- |  |  |  +- halfmsdelay          (see above)
+ |  |  |  +- CMDWRT4              (see above)
+ |  |  |  |  
+ |  |  |  +- delayforlcd          (see above)
  |  |  |  |  
  |  |  |  +- DATWRT4              (see above)
- |  |  |  |  
- |  |  |  +- CMDWRT4              (see above)
  |  |  |     
  |  |  +- onemsdelay          
  |  |  |    
@@ -2116,7 +2137,7 @@ DEPENDENCY TREE
  |     |  |  
  |     |  +- halfmsdelay          (see above)
  |     |  |  
- |     |  +- Int_to_string       
+ |     |  +- Int_to_string2      
  |     |     | 
  |     |     +- LCD_sensorval       
  |     |        | 
@@ -2128,6 +2149,10 @@ DEPENDENCY TREE
     | 
     +- main                 (see above)
        
+ _Vector_15          
+ | 
+ +- TC7_ISR             
+      
 *********************************************************************************************
 STATISTIC SECTION
 ---------------------------------------------------------------------------------------------
@@ -2135,5 +2160,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 4
-Total size of all blocks to be downloaded: 1787
+Total size of all blocks to be downloaded: 1808
 

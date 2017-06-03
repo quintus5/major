@@ -1,8 +1,6 @@
-
-#include "globalvar.h"
-
 #ifndef pwm_h
 #define pwm_h
+
 
 void resetservie(void);
 void motocontrol(void);

@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "K:\MAJORRRRRRRR\serial laser pwm 7seg no sensor\bin\Project.abs"
+PROGRAM "D:\document\MMAAAAJJJOOOORRR\offboard scanner\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -16,16 +16,14 @@ mc9s12dg256.c.o                         Model: SMALL,         Lang: ANSI-C
 main.c.o                                Model: SMALL,         Lang: ANSI-C
 main.asm.o                              Model: SMALL,         Lang: Assembler
 Start12.c.o                             Model: SMALL,         Lang: ANSI-C
-FADD.C.o (ansis.lib)                    Model: SMALL,         Lang: ANSI-C
-FCONV.C.o (ansis.lib)                   Model: SMALL,         Lang: ANSI-C
-FMUL.C.o (ansis.lib)                    Model: SMALL,         Lang: ANSI-C
-FREGS.C.o (ansis.lib)                   Model: SMALL,         Lang: ANSI-C
-rtshc12.c.o (ansis.lib)                 Model: SMALL,         Lang: ANSI-C
-VREGS.C.o (ansis.lib)                   Model: SMALL,         Lang: ANSI-C
 io.c.o                                  Model: SMALL,         Lang: ANSI-C
 pwm.c.o                                 Model: SMALL,         Lang: ANSI-C
 laser.c.o                               Model: SMALL,         Lang: ANSI-C
 sevenseg.c.o                            Model: SMALL,         Lang: ANSI-C
+LCD.c.o                                 Model: SMALL,         Lang: ANSI-C
+keypad.c.o                              Model: SMALL,         Lang: ANSI-C
+sensor_on_lcd.c.o                       Model: SMALL,         Lang: ANSI-C
+iic.c.o                                 Model: SMALL,         Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -36,9 +34,9 @@ Entry point: 0xC000 (_Startup)
 SECTION-ALLOCATION SECTION
 Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
-.init                              6     R     0xC000     0xC005   ROM_C000
-.rodata                          473     R     0xC006     0xC1DE   ROM_C000
-.text                            939     R     0xC1DF     0xC589   ROM_C000
+.init                             16     R     0xC000     0xC00F   ROM_C000
+.rodata                          192     R     0xC010     0xC0CF   ROM_C000
+.text                           1560     R     0xC0D0     0xC6E7   ROM_C000
 .stack                           256   R/W     0x1000     0x10FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -381,16 +379,16 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_17e                   2   N/I      0x17E      0x17F   .absSeg338
 .abs_section_2ae                   2   N/I      0x2AE      0x2AF   .absSeg339
 .abs_section_2be                   2   N/I      0x2BE      0x2BF   .absSeg340
-.abs_section_ffd4                  2     R     0xFFD4     0xFFD5   .absSeg341
-MyCode                             7     R     0xC58A     0xC590   ROM_C000
-MY_EXTENDED_RAM                    1   R/W     0x1100     0x1100   RAM
-RUNTIME                          660     R     0xC591     0xC824   ROM_C000
-.common                           37   R/W     0x1101     0x1125   RAM
+.abs_section_ffe0                  2     R     0xFFE0     0xFFE1   .absSeg341
+.bss                               8   R/W     0x1100     0x1107   RAM
+MyCode                             7     R     0xC6E8     0xC6EE   ROM_C000
+MY_EXTENDED_RAM                    1   R/W     0x1108     0x1108   RAM
+.common                           48   R/W     0x1109     0x1138   RAM
 .vectSeg342_vect                   2     R     0xFFFE     0xFFFF   .vectSeg342
 
 Summary of section sizes per section type:
-READ_ONLY (R):         829 (dec:     2089)
-READ_WRITE (R/W):      126 (dec:      294)
+READ_ONLY (R):         6F3 (dec:     1779)
+READ_WRITE (R/W):      139 (dec:      313)
 NO_INIT (N/I):         190 (dec:      400)
 
 *********************************************************************************************
@@ -432,8 +430,8 @@ MODULE:                 -- mc9s12dg256.c.o --
      _BKP1H                                      2E       1       1       0   .abs_section_2e
      _BKP1L                                      2F       1       1       0   .abs_section_2f
      _PPAGE                                      30       1       1       0   .abs_section_30
-     _PORTK                                      32       1       1       0   .abs_section_32
-     _DDRK                                       33       1       1       0   .abs_section_33
+     _PORTK                                      32       1       1      16   .abs_section_32
+     _DDRK                                       33       1       1       1   .abs_section_33
      _SYNR                                       34       1       1       0   .abs_section_34
      _REFDV                                      35       1       1       0   .abs_section_35
      _CRGFLG                                     37       1       1       0   .abs_section_37
@@ -455,7 +453,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _TCTL4                                      4B       1       1       2   .abs_section_4b
      _TIE                                        4C       1       1       0   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
-     _TFLG1                                      4E       1       1       4   .abs_section_4e
+     _TFLG1                                      4E       1       1       5   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
      _PACTL                                      60       1       1       0   .abs_section_60
      _PAFLG                                      61       1       1       0   .abs_section_61
@@ -487,12 +485,12 @@ MODULE:                 -- mc9s12dg256.c.o --
      _SCI0SR2                                    CD       1       1       0   .abs_section_cd
      _SCI0DRH                                    CE       1       1       0   .abs_section_ce
      _SCI0DRL                                    CF       1       1       0   .abs_section_cf
-     _SCI1CR1                                    D2       1       1       1   .abs_section_d2
-     _SCI1CR2                                    D3       1       1       1   .abs_section_d3
-     _SCI1SR1                                    D4       1       1       3   .abs_section_d4
+     _SCI1CR1                                    D2       1       1       0   .abs_section_d2
+     _SCI1CR2                                    D3       1       1       0   .abs_section_d3
+     _SCI1SR1                                    D4       1       1       0   .abs_section_d4
      _SCI1SR2                                    D5       1       1       0   .abs_section_d5
      _SCI1DRH                                    D6       1       1       0   .abs_section_d6
-     _SCI1DRL                                    D7       1       1       4   .abs_section_d7
+     _SCI1DRL                                    D7       1       1       0   .abs_section_d7
      _SPI0CR1                                    D8       1       1       0   .abs_section_d8
      _SPI0CR2                                    D9       1       1       0   .abs_section_d9
      _SPI0BR                                     DA       1       1       0   .abs_section_da
@@ -609,7 +607,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _MODRR                                     257       1       1       0   .abs_section_257
      _PTP                                       258       1       1       5   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
-     _DDRP                                      25A       1       1       1   .abs_section_25a
+     _DDRP                                      25A       1       1       2   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
      _PERP                                      25C       1       1       0   .abs_section_25c
      _PPSP                                      25D       1       1       0   .abs_section_25d
@@ -623,9 +621,9 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PPSH                                      265       1       1       0   .abs_section_265
      _PIEH                                      266       1       1       0   .abs_section_266
      _PIFH                                      267       1       1       0   .abs_section_267
-     _PTJ                                       268       1       1       1   .abs_section_268
+     _PTJ                                       268       1       1       2   .abs_section_268
      _PTIJ                                      269       1       1       0   .abs_section_269
-     _DDRJ                                      26A       1       1       1   .abs_section_26a
+     _DDRJ                                      26A       1       1       2   .abs_section_26a
      _RDRJ                                      26B       1       1       0   .abs_section_26b
      _PERJ                                      26C       1       1       0   .abs_section_26c
      _PPSJ                                      26D       1       1       0   .abs_section_26d
@@ -688,10 +686,10 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXDSR7                                2BB       1       1       0   .abs_section_2bb
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
-     _PORTAB                                      0       2       2       8   .abs_section_0
-     _DDRAB                                       2       2       2       2   .abs_section_2
+     _PORTAB                                      0       2       2      13   .abs_section_0
+     _DDRAB                                       2       2       2       3   .abs_section_2
      _PARTID                                     1A       2       2       0   .abs_section_1a
-     _TCNT                                       44       2       2       0   .abs_section_44
+     _TCNT                                       44       2       2       1   .abs_section_44
      _TC0                                        50       2       2       0   .abs_section_50
      _TC1                                        52       2       2       2   .abs_section_52
      _TC2                                        54       2       2       0   .abs_section_54
@@ -699,7 +697,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _TC4                                        58       2       2       0   .abs_section_58
      _TC5                                        5A       2       2       0   .abs_section_5a
      _TC6                                        5C       2       2       0   .abs_section_5c
-     _TC7                                        5E       2       2       0   .abs_section_5e
+     _TC7                                        5E       2       2       1   .abs_section_5e
      _PACN32                                     62       2       2       0   .abs_section_62
      _PACN10                                     64       2       2       0   .abs_section_64
      _PA32H                                      72       2       2       0   .abs_section_72
@@ -732,7 +730,7 @@ MODULE:                 -- mc9s12dg256.c.o --
      _PWMDTY45                                   C0       2       2       3   .abs_section_c0
      _PWMDTY67                                   C2       2       2       3   .abs_section_c2
      _SCI0BD                                     C8       2       2       0   .abs_section_c8
-     _SCI1BD                                     D0       2       2       2   .abs_section_d0
+     _SCI1BD                                     D0       2       2       0   .abs_section_d0
      _ATD1CTL23                                 122       2       2       0   .abs_section_122
      _ATD1CTL45                                 124       2       2       0   .abs_section_124
      _ATD1DR0                                   130       2       2       0   .abs_section_130
@@ -749,155 +747,144 @@ MODULE:                 -- mc9s12dg256.c.o --
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                      C1DF      1D      29       1   .text       
+     main                                      C0D0      25      37       1   .text       
 - VARIABLES:
 MODULE:                 -- main.asm.o --
 - PROCEDURES:
-     asm_main                                  C58A       7       7       1   MyCode      
+     asm_main                                  C6E8       7       7       1   MyCode      
 - VARIABLES:
-     temp_byte                                 1100       1       1       1   MY_EXTENDED_RAM
+     temp_byte                                 1108       1       1       1   MY_EXTENDED_RAM
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     _Startup                                  C000       6       6       0   .init       
+     _Startup                                  C000      10      16       0   .init       
 - VARIABLES:
 - LABELS:
      __SEG_END_SSTACK                          1100       0       0       1               
-MODULE:                 -- FADD.C.o (ansis.lib) --
-- PROCEDURES:
-     F_ADDKL                                   C591      67     103       1   RUNTIME     
-     _FADD                                     C5F8      15      21       1   RUNTIME     
-- VARIABLES:
-MODULE:                 -- FCONV.C.o (ansis.lib) --
-- PROCEDURES:
-     F_TOLONGK                                 C60D      33      51       1   RUNTIME     
-     F_FRLONGK                                 C640      1F      31       2   RUNTIME     
-     _FSFLOAT                                  C65F      12      18       2   RUNTIME     
-     _FUFLOAT                                  C671      12      18       1   RUNTIME     
-     _FSTRUNC                                  C683      11      17       2   RUNTIME     
-     _FUTRUNC                                  C694       3       3       1   RUNTIME     
-- VARIABLES:
-MODULE:                 -- FMUL.C.o (ansis.lib) --
-- PROCEDURES:
-     F_DIVKL                                   C697      8E     142       1   RUNTIME     
-     _FDIV                                     C725      1E      30       1   RUNTIME     
-- VARIABLES:
-MODULE:                 -- FREGS.C.o (ansis.lib) --
-- PROCEDURES:
-     F_PULK                                    C743      15      21       3   RUNTIME     
-     F_PULL                                    C758      15      21       2   RUNTIME     
-     F_PSHK                                    C76D      13      19       4   RUNTIME     
-     F_XGKL                                    C780      21      33       2   RUNTIME     
-     F_CLRK                                    C7A1       B      11       1   RUNTIME     
-     F_MAXK                                    C7AC       9       9       2   RUNTIME     
-     F_NORMK                                   C7B5      3E      62       2   RUNTIME     
-- VARIABLES:
-MODULE:                 -- rtshc12.c.o (ansis.lib) --
-- PROCEDURES:
-     _NEG_P                                    C7F3       F      15       1   RUNTIME     
-     _ILSEXT                                   C802       7       7       2   RUNTIME     
-- VARIABLES:
-MODULE:                 -- VREGS.C.o (ansis.lib) --
-- PROCEDURES:
-     L_NEGK                                    C809       7       7       2   RUNTIME     
-     L_PSHK                                    C810       8       8       1   RUNTIME     
-     UL_PULK                                   C818       3       3       1   RUNTIME     
-     SL_PULK                                   C81B       A      10       1   RUNTIME     
-- VARIABLES:
 MODULE:                 -- io.c.o --
 - PROCEDURES:
-     setupserial                               C1FC      15      21       1   .text       
-     SCI1_ISR                                  C211       A      10       1   .text       
-     printstring                               C21B      1A      26       7   .text       
-     printcharc                                C235       D      13       1   .text       
-     waitinput                                 C242       F      15       1   .text       
-     initialization                            C251      DD     221       3   .text       
+     initialization                            C0F5      F1     241       4   .text       
 - VARIABLES:
-     maxverti                                  C006      1C      28       1   .rodata     
-     maxhori                                   C022      1D      29       1   .rodata     
-     validangle                                C03F      26      38       2   .rodata     
-     errorangle                                C065      23      35       2   .rodata     
-     resobruh                                  C088      1C      28       1   .rodata     
-     errorres                                  C0A4      22      34       1   .rodata     
-     validres                                  C0C6      25      37       1   .rodata     
-     frequencie                                C0EB      29      41       1   .rodata     
-     errorfreq                                 C114      16      22       1   .rodata     
-     validfreq                                 C12A      27      39       1   .rodata     
-     sampling                                  C151      2C      44       1   .rodata     
-     errorsamp                                 C17D      25      37       1   .rodata     
-     validsamp                                 C1A2      29      41       1   .rodata     
-     _Vector_21                                FFD4       2       2       0   .abs_section_ffd4
-     increment                                 1101       1       1       4   .common     
-     frequency                                 1102       1       1       4   .common     
-     samp_per_ori                              1103       1       1       4   .common     
-     max_angle_h                               1104       1       1       6   .common     
-     max_angle_t                               1105       1       1       6   .common     
-     min_angle_h                               1106       1       1       2   .common     
-     min_angle_t                               1107       1       1       2   .common     
+     maxverti                                  C010       E      14       1   .rodata     
+     maxhori                                   C01E      10      16       1   .rodata     
+     errorangle                                C02E      10      16       2   .rodata     
+     resobruh                                  C03E      10      16       1   .rodata     
+     errorres                                  C04E       F      15       1   .rodata     
+     frequencie                                C05D       F      15       1   .rodata     
+     errorfreq                                 C06C      10      16       1   .rodata     
+     sampling                                  C07C       E      14       1   .rodata     
+     errorsamp                                 C08A       9       9       1   .rodata     
+     sensortitle                               C093      10      16       1   .rodata     
+     increment                                 1109       1       1       5   .common     
+     frequency                                 110A       1       1       6   .common     
+     samp_per_ori                              110B       1       1       6   .common     
+     max_angle_h                               110C       1       1       7   .common     
+     max_angle_t                               110D       1       1       7   .common     
+     min_angle_h                               110E       1       1       2   .common     
+     min_angle_t                               110F       1       1       2   .common     
 MODULE:                 -- pwm.c.o --
 - PROCEDURES:
-     resetservie                               C32E      27      39       1   .text       
-     motocontrol                               C355     13F     319       6   .text       
+     resetservie                               C1E6      27      39       1   .text       
+     motocontrol                               C20D     13C     316       5   .text       
 - VARIABLES:
-     i                                         1108       2       2       5   .common     
-     j                                         110A       2       2       5   .common     
-     k                                         110C       2       2       4   .common     
-     converted                                 110E       4       4       4   .common     
-     laser_measurement                         1112       2       2       5   .common     
-     duty_increment                            1114       2       2       3   .common     
-     max_duty_h                                1116       2       2       1   .common     
-     max_duty_t                                1118       2       2       1   .common     
-     min_duty_h                                111A       2       2       3   .common     
-     min_duty_t                                111C       2       2       3   .common     
-     step_h                                    111E       2       2       2   .common     
-     step_t                                    1120       2       2       2   .common     
-     current_duty_h                            1122       2       2       1   .common     
-     current_duty_t                            1124       2       2       1   .common     
+     laser_measurement                         1100       2       2       5   .bss        
+     i                                         1110       2       2       5   .common     
+     j                                         1112       2       2       8   .common     
+     k                                         1114       2       2       5   .common     
+     converted                                 1116       2       2       1   .common     
+     duty_increment                            1118       2       2       4   .common     
+     max_duty_h                                111A       2       2       1   .common     
+     max_duty_t                                111C       2       2       2   .common     
+     min_duty_h                                111E       2       2       3   .common     
+     min_duty_t                                1120       2       2       3   .common     
+     step_h                                    1122       2       2       2   .common     
+     step_t                                    1124       2       2       3   .common     
+     current_duty_h                            1126       2       2       1   .common     
+     current_duty_t                            1128       2       2       1   .common     
 MODULE:                 -- laser.c.o --
 - PROCEDURES:
-     laser_setup                               C494      11      17       1   .text       
-     laser_main                                C4A5      3C      60       1   .text       
+     laser_setup                               C349      11      17       1   .text       
+     laser_main                                C35A      31      49       1   .text       
 - VARIABLES:
+     Fraw                                      112A       2       2       1   .common     
+     Rraw                                      112C       2       2       2   .common     
+     Pulsewidth                                112E       2       2       1   .common     
+     Distance_in_cm                            1130       2       2       1   .common     
 MODULE:                 -- sevenseg.c.o --
 - PROCEDURES:
-     delay                                     C4E1      1F      31       5   .text       
-     sevenseg_config                           C500       F      15       1   .text       
-     seveseg_main                              C50F      7B     123       1   .text       
+     onemsdelay                                C38B      1F      31       1   .text       
+     halfmsdelay                               C3AA      1F      31       7   .text       
+     delayforlcd                               C3C9      1F      31       9   .text       
+     sevenseg_config                           C3E8       F      15       1   .text       
+     seveseg_main                              C3F7      5D      93       1   .text       
 - VARIABLES:
-     LCD_dot                                   C1CB       A      10       1   .rodata     
-     LCD_nodot                                 C1D5       A      10       3   .rodata     
+     LCD_nodot                                 C0A3       A      10       2   .rodata     
+MODULE:                 -- LCD.c.o --
+- PROCEDURES:
+     LCD_setup                                 C454      2A      42       1   .text       
+     LCD_string                                C47E      35      53       3   .text       
+     LCD_text                                  C4B3      19      25       5   .text       
+     LCD_sensorval                             C4CC      26      38       1   .text       
+     CMDWRT4                                   C4F2      45      69       7   .text       
+     DATWRT4                                   C537      39      57       3   .text       
+- VARIABLES:
+MODULE:                 -- keypad.c.o --
+- PROCEDURES:
+     setupkeypad                               C570      16      22       1   .text       
+     getkey                                    C586      AC     172       4   .text       
+- VARIABLES:
+     keypad                                    C0AD      10      16       4   .rodata     
+     column                                    1132       1       1       6   .common     
+     row                                       1133       1       1       3   .common     
+MODULE:                 -- sensor_on_lcd.c.o --
+- PROCEDURES:
+     printsensor                               C632      23      35       1   .text       
+     Int_to_string2                            C655      6C     108       4   .text       
+- VARIABLES:
+     numbers                                   C0BD      13      19       4   .rodata     
+     value_string                              1134       5       5       8   .common     
+MODULE:                 -- iic.c.o --
+- PROCEDURES:
+     TC7_ISR                                   C6C1      27      39       1   .text       
+- VARIABLES:
+     alarmSignaled                             1102       1       1       1   .bss        
+     currentTime                               1103       2       2       3   .bss        
+     alarmTime                                 1105       2       2       1   .bss        
+     alarmSet                                  1107       1       1       2   .bss        
+     _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12dg256.c.o                            400      0      0
-  main.c.o                                     0     29      0
+  main.c.o                                     0     37      0
   main.asm.o                                   1      7      0
-  Start12.c.o                                  0      6      0
-  FADD.C.o (ansis.lib)                         0    124      0
-  FCONV.C.o (ansis.lib)                        0    138      0
-  FMUL.C.o (ansis.lib)                         0    172      0
-  FREGS.C.o (ansis.lib)                        0    176      0
-  rtshc12.c.o (ansis.lib)                      0     22      0
-  VREGS.C.o (ansis.lib)                        0     28      0
-  io.c.o                                       7    306    455
-  pwm.c.o                                     30    358      0
-  laser.c.o                                    0     77      0
-  sevenseg.c.o                                 0    169     20
+  Start12.c.o                                  0     16      0
+  io.c.o                                       7    241    147
+  pwm.c.o                                     28    355      0
+  laser.c.o                                    8     66      0
+  sevenseg.c.o                                 0    201     10
+  LCD.c.o                                      0    284      0
+  keypad.c.o                                   2    194     16
+  sensor_on_lcd.c.o                            5    143     19
+  iic.c.o                                      6     39      2
   other                                      256      2      0
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  main setupserial SCI1_ISR printstring printcharc waitinput initialization 
-  resetservie motocontrol laser_setup laser_main delay sevenseg_config 
-  seveseg_main 
+  main initialization resetservie motocontrol laser_setup laser_main 
+  onemsdelay halfmsdelay delayforlcd sevenseg_config seveseg_main LCD_setup 
+  LCD_string LCD_text LCD_sensorval CMDWRT4 DATWRT4 setupkeypad getkey 
+  printsensor Int_to_string2 TC7_ISR 
+SECTION: ".bss"
+  laser_measurement alarmSignaled currentTime alarmTime alarmSet 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
-  maxverti maxhori validangle errorangle resobruh errorres validres frequencie 
-  errorfreq validfreq sampling errorsamp validsamp LCD_dot LCD_nodot 
+  maxverti maxhori errorangle resobruh errorres frequencie errorfreq sampling 
+  errorsamp sensortitle LCD_nodot keypad numbers 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1584,23 +1571,20 @@ SECTION: "MyCode"
   asm_main 
 SECTION: "MY_EXTENDED_RAM"
   temp_byte 
-SECTION: "RUNTIME"
-  F_ADDKL _FADD F_TOLONGK F_FRLONGK _FSFLOAT _FUFLOAT _FSTRUNC _FUTRUNC 
-  F_DIVKL _FDIV F_PULK F_PULL F_PSHK F_XGKL F_CLRK F_MAXK F_NORMK _NEG_P 
-  _ILSEXT L_NEGK L_PSHK UL_PULK SL_PULK 
 SECTION: ".common"
   increment frequency samp_per_ori max_angle_h max_angle_t min_angle_h 
-  min_angle_t i j k converted laser_measurement duty_increment max_duty_h 
-  max_duty_t min_duty_h min_duty_t step_h step_t current_duty_h current_duty_t 
-SECTION: ".abs_section_ffd4"
-  _Vector_21 
+  min_angle_t i j k converted duty_increment max_duty_h max_duty_t min_duty_h 
+  min_duty_t step_h step_t current_duty_h current_duty_t Fraw Rraw Pulsewidth 
+  Distance_in_cm column row value_string 
+SECTION: ".abs_section_ffe0"
+  _Vector_15 
 
 *********************************************************************************************
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       8   .abs_section_0
-     _DDRAB                                       2       2       2       2   .abs_section_2
+     _PORTAB                                      0       2       2      13   .abs_section_0
+     _DDRAB                                       2       2       2       3   .abs_section_2
      _PORTE                                       8       1       1       0   .abs_section_8
      _DDRE                                        9       1       1       0   .abs_section_9
      _PEAR                                        A       1       1       0   .abs_section_a
@@ -1628,8 +1612,8 @@ OBJECT LIST SORTED BY ADDRESS
      _BKP1H                                      2E       1       1       0   .abs_section_2e
      _BKP1L                                      2F       1       1       0   .abs_section_2f
      _PPAGE                                      30       1       1       0   .abs_section_30
-     _PORTK                                      32       1       1       0   .abs_section_32
-     _DDRK                                       33       1       1       0   .abs_section_33
+     _PORTK                                      32       1       1      16   .abs_section_32
+     _DDRK                                       33       1       1       1   .abs_section_33
      _SYNR                                       34       1       1       0   .abs_section_34
      _REFDV                                      35       1       1       0   .abs_section_35
      _CRGFLG                                     37       1       1       0   .abs_section_37
@@ -1643,7 +1627,7 @@ OBJECT LIST SORTED BY ADDRESS
      _CFORC                                      41       1       1       0   .abs_section_41
      _OC7M                                       42       1       1       0   .abs_section_42
      _OC7D                                       43       1       1       0   .abs_section_43
-     _TCNT                                       44       2       2       0   .abs_section_44
+     _TCNT                                       44       2       2       1   .abs_section_44
      _TSCR1                                      46       1       1       1   .abs_section_46
      _TTOV                                       47       1       1       0   .abs_section_47
      _TCTL1                                      48       1       1       0   .abs_section_48
@@ -1652,7 +1636,7 @@ OBJECT LIST SORTED BY ADDRESS
      _TCTL4                                      4B       1       1       2   .abs_section_4b
      _TIE                                        4C       1       1       0   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
-     _TFLG1                                      4E       1       1       4   .abs_section_4e
+     _TFLG1                                      4E       1       1       5   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
      _TC0                                        50       2       2       0   .abs_section_50
      _TC1                                        52       2       2       2   .abs_section_52
@@ -1661,7 +1645,7 @@ OBJECT LIST SORTED BY ADDRESS
      _TC4                                        58       2       2       0   .abs_section_58
      _TC5                                        5A       2       2       0   .abs_section_5a
      _TC6                                        5C       2       2       0   .abs_section_5c
-     _TC7                                        5E       2       2       0   .abs_section_5e
+     _TC7                                        5E       2       2       1   .abs_section_5e
      _PACTL                                      60       1       1       0   .abs_section_60
      _PAFLG                                      61       1       1       0   .abs_section_61
      _PACN32                                     62       2       2       0   .abs_section_62
@@ -1724,13 +1708,13 @@ OBJECT LIST SORTED BY ADDRESS
      _SCI0SR2                                    CD       1       1       0   .abs_section_cd
      _SCI0DRH                                    CE       1       1       0   .abs_section_ce
      _SCI0DRL                                    CF       1       1       0   .abs_section_cf
-     _SCI1BD                                     D0       2       2       2   .abs_section_d0
-     _SCI1CR1                                    D2       1       1       1   .abs_section_d2
-     _SCI1CR2                                    D3       1       1       1   .abs_section_d3
-     _SCI1SR1                                    D4       1       1       3   .abs_section_d4
+     _SCI1BD                                     D0       2       2       0   .abs_section_d0
+     _SCI1CR1                                    D2       1       1       0   .abs_section_d2
+     _SCI1CR2                                    D3       1       1       0   .abs_section_d3
+     _SCI1SR1                                    D4       1       1       0   .abs_section_d4
      _SCI1SR2                                    D5       1       1       0   .abs_section_d5
      _SCI1DRH                                    D6       1       1       0   .abs_section_d6
-     _SCI1DRL                                    D7       1       1       4   .abs_section_d7
+     _SCI1DRL                                    D7       1       1       0   .abs_section_d7
      _SPI0CR1                                    D8       1       1       0   .abs_section_d8
      _SPI0CR2                                    D9       1       1       0   .abs_section_d9
      _SPI0BR                                     DA       1       1       0   .abs_section_da
@@ -1859,7 +1843,7 @@ OBJECT LIST SORTED BY ADDRESS
      _MODRR                                     257       1       1       0   .abs_section_257
      _PTP                                       258       1       1       5   .abs_section_258
      _PTIP                                      259       1       1       0   .abs_section_259
-     _DDRP                                      25A       1       1       1   .abs_section_25a
+     _DDRP                                      25A       1       1       2   .abs_section_25a
      _RDRP                                      25B       1       1       0   .abs_section_25b
      _PERP                                      25C       1       1       0   .abs_section_25c
      _PPSP                                      25D       1       1       0   .abs_section_25d
@@ -1873,9 +1857,9 @@ OBJECT LIST SORTED BY ADDRESS
      _PPSH                                      265       1       1       0   .abs_section_265
      _PIEH                                      266       1       1       0   .abs_section_266
      _PIFH                                      267       1       1       0   .abs_section_267
-     _PTJ                                       268       1       1       1   .abs_section_268
+     _PTJ                                       268       1       1       2   .abs_section_268
      _PTIJ                                      269       1       1       0   .abs_section_269
-     _DDRJ                                      26A       1       1       1   .abs_section_26a
+     _DDRJ                                      26A       1       1       2   .abs_section_26a
      _RDRJ                                      26B       1       1       0   .abs_section_26b
      _PERJ                                      26C       1       1       0   .abs_section_26c
      _PPSJ                                      26D       1       1       0   .abs_section_26d
@@ -1940,108 +1924,96 @@ OBJECT LIST SORTED BY ADDRESS
      _CAN4TXDLR                                 2BC       1       1       0   .abs_section_2bc
      _CAN4TXTBPR                                2BD       1       1       0   .abs_section_2bd
      _CAN4TXTSR                                 2BE       2       2       0   .abs_section_2be
-     temp_byte                                 1100       1       1       1   MY_EXTENDED_RAM
-     increment                                 1101       1       1       4   .common     
-     frequency                                 1102       1       1       4   .common     
-     samp_per_ori                              1103       1       1       4   .common     
-     max_angle_h                               1104       1       1       6   .common     
-     max_angle_t                               1105       1       1       6   .common     
-     min_angle_h                               1106       1       1       2   .common     
-     min_angle_t                               1107       1       1       2   .common     
-     i                                         1108       2       2       5   .common     
-     j                                         110A       2       2       5   .common     
-     k                                         110C       2       2       4   .common     
-     converted                                 110E       4       4       4   .common     
-     laser_measurement                         1112       2       2       5   .common     
-     duty_increment                            1114       2       2       3   .common     
-     max_duty_h                                1116       2       2       1   .common     
-     max_duty_t                                1118       2       2       1   .common     
-     min_duty_h                                111A       2       2       3   .common     
-     min_duty_t                                111C       2       2       3   .common     
-     step_h                                    111E       2       2       2   .common     
-     step_t                                    1120       2       2       2   .common     
-     current_duty_h                            1122       2       2       1   .common     
-     current_duty_t                            1124       2       2       1   .common     
-     _Startup                                  C000       6       6       0   .init       
-     maxverti                                  C006      1C      28       1   .rodata     
-     maxhori                                   C022      1D      29       1   .rodata     
-     validangle                                C03F      26      38       2   .rodata     
-     errorangle                                C065      23      35       2   .rodata     
-     resobruh                                  C088      1C      28       1   .rodata     
-     errorres                                  C0A4      22      34       1   .rodata     
-     validres                                  C0C6      25      37       1   .rodata     
-     frequencie                                C0EB      29      41       1   .rodata     
-     errorfreq                                 C114      16      22       1   .rodata     
-     validfreq                                 C12A      27      39       1   .rodata     
-     sampling                                  C151      2C      44       1   .rodata     
-     errorsamp                                 C17D      25      37       1   .rodata     
-     validsamp                                 C1A2      29      41       1   .rodata     
-     LCD_dot                                   C1CB       A      10       1   .rodata     
-     LCD_nodot                                 C1D5       A      10       3   .rodata     
-     main                                      C1DF      1D      29       1   .text       
-     setupserial                               C1FC      15      21       1   .text       
-     SCI1_ISR                                  C211       A      10       1   .text       
-     printstring                               C21B      1A      26       7   .text       
-     printcharc                                C235       D      13       1   .text       
-     waitinput                                 C242       F      15       1   .text       
-     initialization                            C251      DD     221       3   .text       
-     resetservie                               C32E      27      39       1   .text       
-     motocontrol                               C355     13F     319       6   .text       
-     laser_setup                               C494      11      17       1   .text       
-     laser_main                                C4A5      3C      60       1   .text       
-     delay                                     C4E1      1F      31       5   .text       
-     sevenseg_config                           C500       F      15       1   .text       
-     seveseg_main                              C50F      7B     123       1   .text       
-     asm_main                                  C58A       7       7       1   MyCode      
-     F_ADDKL                                   C591      67     103       1   RUNTIME     
-     _FADD                                     C5F8      15      21       1   RUNTIME     
-     F_TOLONGK                                 C60D      33      51       1   RUNTIME     
-     F_FRLONGK                                 C640      1F      31       2   RUNTIME     
-     _FSFLOAT                                  C65F      12      18       2   RUNTIME     
-     _FUFLOAT                                  C671      12      18       1   RUNTIME     
-     _FSTRUNC                                  C683      11      17       2   RUNTIME     
-     _FUTRUNC                                  C694       3       3       1   RUNTIME     
-     F_DIVKL                                   C697      8E     142       1   RUNTIME     
-     _FDIV                                     C725      1E      30       1   RUNTIME     
-     F_PULK                                    C743      15      21       3   RUNTIME     
-     F_PULL                                    C758      15      21       2   RUNTIME     
-     F_PSHK                                    C76D      13      19       4   RUNTIME     
-     F_XGKL                                    C780      21      33       2   RUNTIME     
-     F_CLRK                                    C7A1       B      11       1   RUNTIME     
-     F_MAXK                                    C7AC       9       9       2   RUNTIME     
-     F_NORMK                                   C7B5      3E      62       2   RUNTIME     
-     _NEG_P                                    C7F3       F      15       1   RUNTIME     
-     _ILSEXT                                   C802       7       7       2   RUNTIME     
-     L_NEGK                                    C809       7       7       2   RUNTIME     
-     L_PSHK                                    C810       8       8       1   RUNTIME     
-     UL_PULK                                   C818       3       3       1   RUNTIME     
-     SL_PULK                                   C81B       A      10       1   RUNTIME     
-     _Vector_21                                FFD4       2       2       0   .abs_section_ffd4
+     laser_measurement                         1100       2       2       5   .bss        
+     alarmSignaled                             1102       1       1       1   .bss        
+     currentTime                               1103       2       2       3   .bss        
+     alarmTime                                 1105       2       2       1   .bss        
+     alarmSet                                  1107       1       1       2   .bss        
+     temp_byte                                 1108       1       1       1   MY_EXTENDED_RAM
+     increment                                 1109       1       1       5   .common     
+     frequency                                 110A       1       1       6   .common     
+     samp_per_ori                              110B       1       1       6   .common     
+     max_angle_h                               110C       1       1       7   .common     
+     max_angle_t                               110D       1       1       7   .common     
+     min_angle_h                               110E       1       1       2   .common     
+     min_angle_t                               110F       1       1       2   .common     
+     i                                         1110       2       2       5   .common     
+     j                                         1112       2       2       8   .common     
+     k                                         1114       2       2       5   .common     
+     converted                                 1116       2       2       1   .common     
+     duty_increment                            1118       2       2       4   .common     
+     max_duty_h                                111A       2       2       1   .common     
+     max_duty_t                                111C       2       2       2   .common     
+     min_duty_h                                111E       2       2       3   .common     
+     min_duty_t                                1120       2       2       3   .common     
+     step_h                                    1122       2       2       2   .common     
+     step_t                                    1124       2       2       3   .common     
+     current_duty_h                            1126       2       2       1   .common     
+     current_duty_t                            1128       2       2       1   .common     
+     Fraw                                      112A       2       2       1   .common     
+     Rraw                                      112C       2       2       2   .common     
+     Pulsewidth                                112E       2       2       1   .common     
+     Distance_in_cm                            1130       2       2       1   .common     
+     column                                    1132       1       1       6   .common     
+     row                                       1133       1       1       3   .common     
+     value_string                              1134       5       5       8   .common     
+     _Startup                                  C000      10      16       0   .init       
+     maxverti                                  C010       E      14       1   .rodata     
+     maxhori                                   C01E      10      16       1   .rodata     
+     errorangle                                C02E      10      16       2   .rodata     
+     resobruh                                  C03E      10      16       1   .rodata     
+     errorres                                  C04E       F      15       1   .rodata     
+     frequencie                                C05D       F      15       1   .rodata     
+     errorfreq                                 C06C      10      16       1   .rodata     
+     sampling                                  C07C       E      14       1   .rodata     
+     errorsamp                                 C08A       9       9       1   .rodata     
+     sensortitle                               C093      10      16       1   .rodata     
+     LCD_nodot                                 C0A3       A      10       2   .rodata     
+     keypad                                    C0AD      10      16       4   .rodata     
+     numbers                                   C0BD      13      19       4   .rodata     
+     main                                      C0D0      25      37       1   .text       
+     initialization                            C0F5      F1     241       4   .text       
+     resetservie                               C1E6      27      39       1   .text       
+     motocontrol                               C20D     13C     316       5   .text       
+     laser_setup                               C349      11      17       1   .text       
+     laser_main                                C35A      31      49       1   .text       
+     onemsdelay                                C38B      1F      31       1   .text       
+     halfmsdelay                               C3AA      1F      31       7   .text       
+     delayforlcd                               C3C9      1F      31       9   .text       
+     sevenseg_config                           C3E8       F      15       1   .text       
+     seveseg_main                              C3F7      5D      93       1   .text       
+     LCD_setup                                 C454      2A      42       1   .text       
+     LCD_string                                C47E      35      53       3   .text       
+     LCD_text                                  C4B3      19      25       5   .text       
+     LCD_sensorval                             C4CC      26      38       1   .text       
+     CMDWRT4                                   C4F2      45      69       7   .text       
+     DATWRT4                                   C537      39      57       3   .text       
+     setupkeypad                               C570      16      22       1   .text       
+     getkey                                    C586      AC     172       4   .text       
+     printsensor                               C632      23      35       1   .text       
+     Int_to_string2                            C655      6C     108       4   .text       
+     TC7_ISR                                   C6C1      27      39       1   .text       
+     asm_main                                  C6E8       7       7       1   MyCode      
+     _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
-FADD.C.o (ansis.lib):
-  _FSUB _FINC _FDEC _FNEG _FABS 
-FMUL.C.o (ansis.lib):
-  F_MULKL _FMUL 
-FREGS.C.o (ansis.lib):
-  F_STAL F_TLK F_TKL F_CLRL 
-rtshc12.c.o (ansis.lib):
-  _BSHL _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU 
-  _LSHRS _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC 
-  _LDEC _LMUL _LMULU16x32 _LMULS16x32 _lDivMod _LDIVU _LDIVS _LMODU _LMODS 
-  _COPY _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE 
-  _CASE_SEARCH _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL 
-  _FPCMP 
+iic.c.o:
+  iicinit iicresponse iicstart iicstop iicrestart iictransmit iicswrcv 
+  iicreceive iicreceivem1 iicreceivelast iicreceiveone setAlarm delay Init_TC7 
 NOT USED VARIABLES
-rtshc12.c.o (ansis.lib):
-  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
 io.c.o:
-  data 
+  validangle validres validfreq validsamp data 
 pwm.c.o:
-  box_or_nobox 
+  h h_final w w_final box_or_nobox central h_angle w_angle width height area 
+sevenseg.c.o:
+  LCD_dot 
+sensor_on_lcd.c.o:
+  unitnum unitdig tenthnum tenthdig hundrednum hundreddig 
+iic.c.o:
+  iic_error_code 
 
 *********************************************************************************************
 COPYDOWN SECTION
@@ -2051,48 +2023,42 @@ COPYDOWN SECTION
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK main 
-main                      USES sevenseg_config laser_setup resetservie 
-                                asm_main initialization motocontrol 
-setupserial               USES _SCI1BD _SCI1CR1 _SCI1CR2 _DDRAB _PORTAB 
-SCI1_ISR                  USES _SCI1DRL _SCI1SR1 _PORTAB 
-printstring               USES _SCI1SR1 _SCI1DRL _PORTAB 
-printcharc                USES _SCI1DRL _SCI1SR1 
-waitinput                 USES _PORTAB printcharc 
-initialization            USES setupserial maxverti initialization max_angle_t 
-                                min_angle_t validangle errorangle printstring maxhori 
-                                max_angle_h min_angle_h resobruh increment validres 
-                                errorres frequencie frequency validfreq errorfreq 
-                                sampling samp_per_ori validsamp errorsamp waitinput 
+main                      USES sevenseg_config setupkeypad LCD_setup 
+                                laser_setup resetservie asm_main initialization 
+                                motocontrol 
+initialization            USES maxverti initialization max_angle_t LCD_text 
+                                min_angle_t errorangle maxhori max_angle_h min_angle_h 
+                                resobruh increment errorres frequencie frequency 
+                                errorfreq sampling samp_per_ori errorsamp sensortitle 
+                                LCD_string onemsdelay getkey 
 resetservie               USES _PWMPRCLK _PWMPOL _PWMCAE _PWMCTL _PWME 
                                 _PWMPER67 _PWMDTY67 _PWMCNT67 _PWMPER45 _PWMDTY45 
                                 _PWMCNT45 
 motocontrol               USES min_angle_h min_duty_h max_angle_h motocontrol 
                                 max_duty_h min_angle_t min_duty_t max_angle_t max_duty_t 
                                 increment duty_increment step_h step_t _PWMDTY67 
-                                _PWMCNT67 _PWMDTY45 _PWMCNT45 i current_duty_h delay j 
-                                current_duty_t k laser_measurement laser_main _ILSEXT 
-                                _FSFLOAT converted _FUFLOAT _FADD _FUTRUNC samp_per_ori 
-                                seveseg_main frequency 
+                                _PWMCNT67 _PWMDTY45 _PWMCNT45 i current_duty_h j 
+                                samp_per_ori k laser_measurement seveseg_main printsensor 
+                                laser_main converted current_duty_t 
 laser_setup               USES _DDRT _TSCR1 _TSCR2 _TIOS 
-laser_main                USES _TCTL4 _TFLG1 _TC1 _ILSEXT _FSFLOAT _FDIV 
-                                _FSTRUNC 
+laser_main                USES _TCTL4 _TFLG1 _TC1 Rraw Fraw Pulsewidth 
+                                Distance_in_cm 
 sevenseg_config           USES _DDRAB _DDRP _DDRJ _PTJ 
-seveseg_main              USES _PTP LCD_nodot _PORTAB delay LCD_dot 
+seveseg_main              USES _PTP LCD_nodot _PORTAB frequency halfmsdelay 
+LCD_setup                 USES _DDRK CMDWRT4 delayforlcd 
+LCD_string                USES CMDWRT4 delayforlcd DATWRT4 
+LCD_text                  USES CMDWRT4 delayforlcd DATWRT4 
+LCD_sensorval             USES DATWRT4 
+CMDWRT4                   USES _PORTK delayforlcd 
+DATWRT4                   USES _PORTK halfmsdelay 
+setupkeypad               USES _DDRP _PTP _DDRAB _DDRJ _PTJ 
+getkey                    USES _PORTAB getkey halfmsdelay column row keypad 
+printsensor               USES CMDWRT4 halfmsdelay Int_to_string2 
+Int_to_string2            USES numbers value_string LCD_sensorval 
+TC7_ISR                   USES _TCNT _TC7 _TFLG1 currentTime alarmSet 
+                                alarmTime alarmSignaled 
 asm_main                  USES temp_byte 
-F_ADDKL                   USES F_XGKL F_NORMK 
-_FADD                     USES F_PULK F_PULL F_ADDKL F_PSHK 
-_FSFLOAT                  USES SL_PULK F_FRLONGK F_PSHK 
-_FUFLOAT                  USES UL_PULK F_FRLONGK F_PSHK 
-_FSTRUNC                  USES F_PULK F_TOLONGK L_PSHK 
-_FUTRUNC                  USES _FSTRUNC 
-F_DIVKL                   USES F_MAXK F_NORMK 
-_FDIV                     USES F_PULL F_PULK F_DIVKL F_PSHK 
-F_MAXK                    USES F_CLRK 
-F_NORMK                   USES F_MAXK 
-L_NEGK                    USES _NEG_P 
-L_PSHK                    USES L_NEGK 
-SL_PULK                   USES L_NEGK 
-_Vector_21                USES SCI1_ISR 
+_Vector_15                USES TC7_ISR 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -2103,6 +2069,16 @@ DEPENDENCY TREE
  |  | 
  |  +- sevenseg_config     
  |  |    
+ |  +- setupkeypad         
+ |  |    
+ |  +- LCD_setup           
+ |  |  | 
+ |  |  +- CMDWRT4             
+ |  |  |  | 
+ |  |  |  +- delayforlcd         
+ |  |  |       
+ |  |  +- delayforlcd          (see above)
+ |  |     
  |  +- laser_setup         
  |  |    
  |  +- resetservie         
@@ -2111,103 +2087,57 @@ DEPENDENCY TREE
  |  |    
  |  +- initialization      
  |  |  | 
- |  |  +- setupserial         
+ |  |  +- LCD_text            
+ |  |  |  | 
+ |  |  |  +- CMDWRT4              (see above)
+ |  |  |  |  
+ |  |  |  +- delayforlcd          (see above)
+ |  |  |  |  
+ |  |  |  +- DATWRT4             
+ |  |  |     | 
+ |  |  |     +- halfmsdelay         
+ |  |  |          
+ |  |  +- LCD_string          
+ |  |  |  | 
+ |  |  |  +- CMDWRT4              (see above)
+ |  |  |  |  
+ |  |  |  +- delayforlcd          (see above)
+ |  |  |  |  
+ |  |  |  +- DATWRT4              (see above)
+ |  |  |     
+ |  |  +- onemsdelay          
  |  |  |    
- |  |  +- printstring         
- |  |  |    
- |  |  +- waitinput           
+ |  |  +- getkey              
  |  |     | 
- |  |     +- printcharc          
- |  |          
+ |  |     +- halfmsdelay          (see above)
+ |  |        
  |  +- motocontrol         
  |     | 
- |     +- delay               
- |     |    
- |     +- laser_main          
- |     |  | 
- |     |  +- _ILSEXT             
- |     |  |    
- |     |  +- _FSFLOAT            
- |     |  |  | 
- |     |  |  +- SL_PULK             
- |     |  |  |  | 
- |     |  |  |  +- L_NEGK              
- |     |  |  |     | 
- |     |  |  |     +- _NEG_P              
- |     |  |  |          
- |     |  |  +- F_FRLONGK           
- |     |  |  |    
- |     |  |  +- F_PSHK              
- |     |  |       
- |     |  +- _FDIV               
- |     |  |  | 
- |     |  |  +- F_PULL              
- |     |  |  |    
- |     |  |  +- F_PULK              
- |     |  |  |    
- |     |  |  +- F_DIVKL             
- |     |  |  |  | 
- |     |  |  |  +- F_MAXK              
- |     |  |  |  |  | 
- |     |  |  |  |  +- F_CLRK              
- |     |  |  |  |       
- |     |  |  |  +- F_NORMK             
- |     |  |  |     | 
- |     |  |  |     +- F_MAXK               (see above)
- |     |  |  |        
- |     |  |  +- F_PSHK               (see above)
- |     |  |     
- |     |  +- _FSTRUNC            
- |     |     | 
- |     |     +- F_PULK               (see above)
- |     |     |  
- |     |     +- F_TOLONGK           
- |     |     |    
- |     |     +- L_PSHK              
- |     |        | 
- |     |        +- L_NEGK               (see above)
- |     |           
- |     +- _ILSEXT              (see above)
- |     |  
- |     +- _FSFLOAT             (see above)
- |     |  
- |     +- _FUFLOAT            
- |     |  | 
- |     |  +- UL_PULK             
- |     |  |    
- |     |  +- F_FRLONGK            (see above)
- |     |  |  
- |     |  +- F_PSHK               (see above)
- |     |     
- |     +- _FADD               
- |     |  | 
- |     |  +- F_PULK               (see above)
- |     |  |  
- |     |  +- F_PULL               (see above)
- |     |  |  
- |     |  +- F_ADDKL             
- |     |  |  | 
- |     |  |  +- F_XGKL              
- |     |  |  |    
- |     |  |  +- F_NORMK              (see above)
- |     |  |     
- |     |  +- F_PSHK               (see above)
- |     |     
- |     +- _FUTRUNC            
- |     |  | 
- |     |  +- _FSTRUNC             (see above)
- |     |     
  |     +- seveseg_main        
- |        | 
- |        +- delay                (see above)
- |           
+ |     |  | 
+ |     |  +- halfmsdelay          (see above)
+ |     |     
+ |     +- printsensor         
+ |     |  | 
+ |     |  +- CMDWRT4              (see above)
+ |     |  |  
+ |     |  +- halfmsdelay          (see above)
+ |     |  |  
+ |     |  +- Int_to_string2      
+ |     |     | 
+ |     |     +- LCD_sensorval       
+ |     |        | 
+ |     |        +- DATWRT4              (see above)
+ |     |           
+ |     +- laser_main          
+ |          
  +- _Startup            
     | 
     +- main                 (see above)
        
- _Vector_21          
+ _Vector_15          
  | 
- +- SCI1_ISR            
+ +- TC7_ISR             
       
 *********************************************************************************************
 STATISTIC SECTION
@@ -2215,6 +2145,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 2089
+Number of blocks to be downloaded: 3
+Total size of all blocks to be downloaded: 1779
 

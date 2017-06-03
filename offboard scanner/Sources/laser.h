@@ -1,4 +1,4 @@
-#include "globalvar.h"
+
 #ifndef laser_h
 #define laser_h
 
